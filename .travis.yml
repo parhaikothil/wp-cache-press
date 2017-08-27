@@ -11,7 +11,7 @@ cache:
   apt: true
   directories:
     - vendor
-    - $HOME/.composer/cache/files
+    - $HOME/.composer/cache
 
 matrix:
   include:
