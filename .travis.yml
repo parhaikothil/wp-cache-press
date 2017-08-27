@@ -15,6 +15,7 @@ branches:
     - master
 
 cache:
+  apt: true
   directories:
     - vendor
     - $HOME/.composer/cache
