@@ -21,6 +21,7 @@ cache:
     - $HOME/.composer/cache
 
 matrix:
+  fast_finish: true
   include:
     - php: 7.1
       env: WP_VERSION=latest
@@ -38,9 +39,13 @@ matrix:
       env: WP_VERSION=latest
     - php: 5.6
       env: TRAVISCI=phpcs
+  allow_failures:
+    - php: 5.6
+      env: TRAVISCI=phpcs
 
 before_script:
-  - export PATH="$HOME/.composer/vendor/bin:$PATH"
+  - |
+    export PATH="$HOME/.composer/vendor/bin:$PATH"
   - |
     if [[ ! -z "$WP_VERSION" ]] ; then
       bash bin/install-wp-tests.sh wordpress_test root '' localhost $WP_VERSION
