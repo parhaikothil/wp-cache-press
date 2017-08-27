@@ -90,7 +90,7 @@ script:
     if [[ ! -z "$WP_VERSION" ]] ; then
       # Run PHPUnit tests
       phpunit || exit 1
-#      WP_MULTISITE=1 phpunit || exit 1
+      # WP_MULTISITE=1 phpunit || exit 1
     fi
   - |
     if [[ "$TRAVISCI" == "phpcs" ]] ; then
