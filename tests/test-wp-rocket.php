@@ -1,7 +1,7 @@
 <?php
 class Test_WP_Rocket extends WP_UnitTestCase {
 	public function test_constants() {
-		$this->assertSame( WP_ROCKET_VERSION, '2.10.6' );
+		$this->assertSame( WP_ROCKET_VERSION, '2.10.7' );
 		$this->assertSame( WP_ROCKET_PRIVATE_KEY, false );
 		$this->assertSame( WP_ROCKET_SLUG, 'wp_rocket_settings' );
 		$this->assertSame( WP_ROCKET_WEB_MAIN, false );

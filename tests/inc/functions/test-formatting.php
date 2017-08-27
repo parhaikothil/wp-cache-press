@@ -1,9 +1,9 @@
 <?php
 class WP_Rocket_Formatting_Test extends WP_UnitTestCase {
 	function test_rocket_clean_exclude_file() {
-		$path = rocket_clean_exclude_file( 'http://www.geekpress.fr/referencement-wordpress/' );
+		$path 									= rocket_clean_exclude_file( 'http://www.geekpress.fr/referencement-wordpress/' );
 		$path_with_query_string = rocket_clean_exclude_file( 'http://www.geekpress.fr/referencement-wordpress/?test=toto' );
-		$path_without_scheme = rocket_clean_exclude_file( '//www.geekpress.fr/referencement-wordpress/?test=toto' );
+		$path_without_scheme 		= rocket_clean_exclude_file( '//www.geekpress.fr/referencement-wordpress/?test=toto' );
 
 		$this->assertEquals( '/referencement-wordpress/', $path );
 		$this->assertEquals( '/referencement-wordpress/', $path_with_query_string );
@@ -11,7 +11,7 @@ class WP_Rocket_Formatting_Test extends WP_UnitTestCase {
 	}
 
 	function test_rocket_sanitize_css() {
-		$file_with_css_extension 	= rocket_sanitize_css( 'test.css' );
+		$file_with_css_extension 		= rocket_sanitize_css( 'test.css' );
 		$file_without_css_extension = rocket_sanitize_css( 'test.js' );
 
 		$this->assertEquals( 'test.css', $file_with_css_extension );
@@ -27,7 +27,7 @@ class WP_Rocket_Formatting_Test extends WP_UnitTestCase {
 	}
 
 	function test_rocket_sanitize_xml() {
-		$file_with_xml_extension 	= rocket_sanitize_xml( 'test.xml' );
+		$file_with_xml_extension 		= rocket_sanitize_xml( 'test.xml' );
 		$file_without_xml_extension = rocket_sanitize_xml( 'test.css' );
 
 		$this->assertEquals( 'test.xml', $file_with_xml_extension );
@@ -35,15 +35,15 @@ class WP_Rocket_Formatting_Test extends WP_UnitTestCase {
 	}
 
 	function test_rocket_sanitize_key() {
-		$special_chars = rocket_sanitize_key( 'abcd$.3' );
-		$uppercase = rocket_sanitize_key( 'WP_ROCKET-2.9' );
+		$special_chars 	= rocket_sanitize_key( 'abcd$.3' );
+		$uppercase 			= rocket_sanitize_key( 'WP_ROCKET-2.9' );
 
 		$this->assertEquals( 'abcd3', $special_chars );
 		$this->assertEquals( 'WP_ROCKET-29', $uppercase );
 	}
 
 	function test_rocket_sanitize_ua() {
-		$bad_user_agent = rocket_sanitize_ua( '&iPhone$' );
+		$bad_user_agent 	= rocket_sanitize_ua( '&iPhone$' );
 		$user_agent_regex = rocket_sanitize_ua( '(.*)iPhone 4_S\/Apple-phone.4' );
 
 		$this->assertEquals( 'iPhone', $bad_user_agent );
@@ -65,8 +65,8 @@ class WP_Rocket_Formatting_Test extends WP_UnitTestCase {
 	}
 
 	function test_rocket_add_url_protocol() {
-		$url_with_protocol_doubleslash = rocket_add_url_protocol( '//wordpress.dev' );
-		$url_with_protocol			   = rocket_add_url_protocol( 'wordpress.dev' );
+		$url_with_protocol_doubleslash 	= rocket_add_url_protocol( '//wordpress.dev' );
+		$url_with_protocol			   			= rocket_add_url_protocol( 'wordpress.dev' );
 
 		$this->assertEquals( 'http://wordpress.dev', $url_with_protocol_doubleslash );
 		$this->assertEquals( 'http://wordpress.dev', $url_with_protocol );
@@ -81,10 +81,10 @@ class WP_Rocket_Formatting_Test extends WP_UnitTestCase {
 	}
 
 	function test_rocket_get_domain() {
-		$base_domain     = rocket_get_domain( 'http://sub.wordpress.dev' );
-		$base_domain_doubleslash     = rocket_get_domain( '//sub.wordpress.dev' );
-		$base_domain_double_subdomain    = rocket_get_domain( 'sub.sub.wordpress.dev' );
-		$incorrect_value = rocket_get_domain( 'abcdef' );
+		$base_domain     									= rocket_get_domain( 'http://sub.wordpress.dev' );
+		$base_domain_doubleslash     			= rocket_get_domain( '//sub.wordpress.dev' );
+		$base_domain_double_subdomain    	= rocket_get_domain( 'sub.sub.wordpress.dev' );
+		$incorrect_value 									= rocket_get_domain( 'abcdef' );
 
 		$this->assertEquals( 'wordpress.dev', $base_domain );
 		$this->assertEquals( 'wordpress.dev', $base_domain_doubleslash );
@@ -106,7 +106,7 @@ class WP_Rocket_Formatting_Test extends WP_UnitTestCase {
 		$expected_cache_busting_paths = array(
 			'bustingpath' => WP_CONTENT_DIR . '/cache/busting/1/',
 			'filepath'	  => WP_CONTENT_DIR . '/cache/busting/1/wp-content-plugins-wp-rocket-js-lazyload-1.0.5.min.js',
-			'url'		  => WP_CONTENT_URL . '/cache/busting/1/wp-content-plugins-wp-rocket-js-lazyload-1.0.5.min.js',
+			'url'		  		=> WP_CONTENT_URL . '/cache/busting/1/wp-content-plugins-wp-rocket-js-lazyload-1.0.5.min.js',
 		);
 
 		$this->assertEquals( $expected_cache_busting_paths, $cache_busting_paths );
