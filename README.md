@@ -1,40 +1,24 @@
-# Welcome to the WP Rocket GitHub Repository
-Feel free to browse the source and keep track of our plugin's progress. You can stay informed of our latest versions via our [blog](https://blog.wp-rocket.me/?utm_source=github&utm_medium=wp_rocket_profile) or via Twitter [@wp_rocket](https://twitter.com/wp_rocket).
+# WP Cache Press
 
-We aim to help make the web faster, one WordPress website at a time. That’s why we created *WP Rocket*. It's a caching plugin that simplifies the process and helps decrease a website’s load time.
+[![Build Status](https://travis-ci.org/novatemple/wp-cache-press.svg?branch=master)](https://travis-ci.org/novatemple/wp-cache-press)
+[![GitHub license](https://img.shields.io/badge/license-GPLv2-blue.svg)](https://raw.githubusercontent.com/novatemple/wp-cache-press/master/LICENSE.md)
 
-If you are not a developer, visit our [documentation](http://docs.wp-rocket.me/?utm_source=github&utm_medium=wp_rocket_profile).
+The best caching plugin for WordPress that's simple and fast.
 
-## Documentation
-
-Need detailed setup instructions?
-
-We are very proud of WP Rocket’s knowledge base.
-We have [documentation](http://docs.wp-rocket.me/?utm_source=github&utm_medium=wp_rocket_profile) in English, French, Italian, Spanish and German.
-
-You can also check out our [changelog](https://wp-rocket.me/changelog/?utm_source=github&utm_medium=wp_rocket_profile).
+[WP Cache Press](https://wpcache.press/) makes WordPress websites fast again in no time with super simple setup and the best performance optimization service. With no configuration you can feel immediate results. You won't need to struggle with complex plugin settings and no programming knowledge is required.
 
 ## Support
 
-Need help with something? Open a [ticket](https://wp-rocket.me/support/?utm_source=github&utm_medium=wp_rocket_profile) and we will be happy to help you out!
+To receive a personalized support, please use our [support center](https://wpcache.press/account/).
 
-## Bugs
+## Bugs and Contributions
 
-If you find an issue in WP Rocket, please let us know [here](https://github.com/wp-media/wp-rocket/issues).
-Be advised, this point of contact is to be used to report bugs and not to receive support.
-Check out our [support page](https://wp-rocket.me/support/?utm_source=github&utm_medium=wp_rocket_profile) if you need to submit a ticket.
+Community made patches, bug reports, localizations (translations) and other contributions are always welcome.
 
-To disclose a security issue to our team, please reach out to contact@wp-media.me
+* Submit bug reports on the [issues tracker](https://github.com/novatemple/wp-cache-press/issues).
+* To disclose a security issue, please [contact us](https://wpcache.press/contact/).
+* Want to add a new language translation? Awesome! You can contribute on [translate.wordpress.org](https://translate.wordpress.org/projects/wp-plugins/wp-cache-press).
 
-## Contributions
+## Where could I find more information?
 
-Feel free to check out our [public roadmap](https://trello.com/b/CrUcz6Jy/wp-rocket-roadmap) if you would like to request a feature. We always look forward to feedback and suggestions from the community to help us improve our plugins!
-
-## Want to know more about our WordPress plugins?
-
-Visit [wp-media.me](https://wp-media.me/?utm_source=github&utm_medium=wp_rocket_profile).
-
-We also make other plugins that help speed up and secure WordPress websites. Check out:
-
-* [Imagify](https://imagify.io): it's a great WordPress plugin to optimize your images and speed up your website.
-* [SecuPress](https://secupress.me): get peace of mind by securing your WordPress website against various security threats.
+Visit [WP Cache Press website](https://wpcache.press/).

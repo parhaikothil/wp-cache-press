@@ -21,6 +21,3 @@ tests          export-ignore
 phpcs.xml      export-ignore
 phpunit.xml    export-ignore
 README.md      export-ignore
-*.pot          export-ignore
-*.po           export-ignore
-*.mo           export-ignore
