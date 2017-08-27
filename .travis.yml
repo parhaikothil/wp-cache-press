@@ -79,11 +79,15 @@ before_script:
       bash bin/install-wp-tests.sh wordpress_test root '' localhost $WP_VERSION
       # Install the specified version of PHPUnit depending on the PHP version:
       case "$TRAVIS_PHP_VERSION" in
-        7.2|7.1|7.0|nightly)
+        nightly|7.2)
           echo "Using PHPUnit 6.x"
           composer global require "phpunit/phpunit:^6"
           ;;
-        5.6|5.5|5.4|5.3)
+        7.1|7.0|5.6)
+          echo "Using PHPUnit 5.x"
+          composer global require "phpunit/phpunit:^5"
+          ;;
+        5.5|5.4|5.3)
           echo "Using PHPUnit 4.x"
           composer global require "phpunit/phpunit:^4"
           ;;
