@@ -11,35 +11,50 @@ cache:
   apt: true
   directories:
     - vendor
-    - $HOME/.composer/cache
-
-php:
-  - 5.3
-  - 5.4
-  - 5.5
-  - 5.6
-  - 7.0
-  - 7.1
-
-env:
-  - WP_VERSION=latest WP_MULTISITE=0
-  - WP_VERSION=4.7 WP_MULTISITE=0
-  - WP_VERSION=4.6 WP_MULTISITE=0
-  - WP_VERSION=4.5 WP_MULTISITE=0
-  - WP_VERSION=4.4 WP_MULTISITE=0
-  - WP_VERSION=4.3 WP_MULTISITE=0
-  - WP_VERSION=4.2 WP_MULTISITE=0
-  - WP_VERSION=4.1 WP_MULTISITE=0
-  - WP_VERSION=4.0 WP_MULTISITE=0
+    - $HOME/.composer/cache/files
 
 matrix:
-  exclude:
-    - php: 5.3
-      dist: trusty
   include:
     - php: 5.3
       sudo: required
       dist: precise
+      env: WP_VERSION=4.0 WP_MULTISITE=0
+    - php: 5.3
+      sudo: required
+      dist: precise
+      env: WP_VERSION=4.0 WP_MULTISITE=1
+    - php: 5.3
+      sudo: required
+      dist: precise
+      env: WP_VERSION=latest WP_MULTISITE=0
+    - php: 5.3
+      sudo: required
+      dist: precise
+      env: WP_VERSION=latest WP_MULTISITE=1
+    - php: 5.6
+      env: WP_VERSION=4.0 WP_MULTISITE=0
+    - php: 5.6
+      env: WP_VERSION=4.0 WP_MULTISITE=1
+    - php: 5.6
+      env: WP_VERSION=latest WP_MULTISITE=0
+    - php: 5.6
+      env: WP_VERSION=latest WP_MULTISITE=1
+    - php: 7.0
+      env: WP_VERSION=4.0 WP_MULTISITE=0
+    - php: 7.0
+      env: WP_VERSION=4.0 WP_MULTISITE=1
+    - php: 7.0
+      env: WP_VERSION=latest WP_MULTISITE=0
+    - php: 7.0
+      env: WP_VERSION=latest WP_MULTISITE=1
+    - php: 7.1
+      env: WP_VERSION=4.0 WP_MULTISITE=0
+    - php: 7.1
+      env: WP_VERSION=4.0 WP_MULTISITE=1
+    - php: 7.1
+      env: WP_VERSION=latest WP_MULTISITE=0
+    - php: 7.1
+      env: WP_VERSION=latest WP_MULTISITE=1
     - php: 5.6
       env: TRAVISCI=phpcs
   allow_failures:
@@ -90,7 +105,6 @@ script:
     if [[ ! -z "$WP_VERSION" ]] ; then
       # Run PHPUnit tests
       phpunit || exit 1
-      # WP_MULTISITE=1 phpunit || exit 1
     fi
   - |
     if [[ "$TRAVISCI" == "phpcs" ]] ; then
