@@ -1175,7 +1175,7 @@ add_action( 'update_option_' . WP_ROCKET_SLUG, 'rocket_after_save_options', 10, 
  * @param array $value An array of submitted options values.
  */
 function rocket_update_ssl_option_after_save_home_url( $oldvalue, $value ) {
-	if ( 'https' === parse_url( $value, PHP_URL_SCHEME ) ) {
+	if ( 'https' === rocket_parse_url( $value, PHP_URL_SCHEME ) ) {
 		update_rocket_option( 'cache_ssl', 1 );
 	}
 }
@@ -1332,7 +1332,7 @@ function rocket_database_count_cleanup_items( $type ) {
 
 /**
  * Handle WP Rocket settings import.
- * 
+ *
  * @since 2.10.7
  * @author Remy Perona
  *
@@ -1367,7 +1367,7 @@ function rocket_handle_settings_import( $file_import, $filename_prefix, $inputs 
 	$_POST['action'] 	= $_post_action;
 	$settings 			= rocket_direct_filesystem()->get_contents( $file['file'] );
 	remove_filter( 'mime_types', 'rocket_allow_json_mime_type' );
-	
+
 	if ( 'text/plain' === $file_data['type'] ) {
 		$gz 				= 'gz' . strrev( 'etalfni' );
 		$settings 			= $gz// ;

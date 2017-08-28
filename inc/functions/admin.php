@@ -256,7 +256,7 @@ function rocket_sanitize_ua( $ua ) {
  * @since 2.7
  */
 function rocket_is_ssl_website() {
-	return 'https' === parse_url( home_url(), PHP_URL_SCHEME );
+	return 'https' === rocket_parse_url( home_url(), PHP_URL_SCHEME );
 }
 
 /**
@@ -490,7 +490,7 @@ function rocket_is_mobile_plugin_active() {
 
 /**
  * Allow upload of JSON file.
- * 
+ *
  * @since 2.10.7
  * @author Remy Perona
  *

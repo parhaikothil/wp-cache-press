@@ -15,7 +15,7 @@ function get_rocket_cnames_host( $zones = array( 'all' ) ) {
 	if ( $cnames = get_rocket_cdn_cnames( $zones ) ) {
 		foreach ( $cnames as $cname ) {
 			$cname = rocket_add_url_protocol( $cname );
-			$hosts[] = parse_url( $cname, PHP_URL_HOST );
+			$hosts[] = rocket_parse_url( $cname, PHP_URL_HOST );
 		}
 	}
 
@@ -45,7 +45,7 @@ function get_rocket_cdn_url( $url, $zone = array( 'all' ) ) {
 
 	// Exclude rejected & external files from CDN.
 	$rejected_files = get_rocket_cdn_reject_files();
-	if ( ( ! empty( $rejected_files ) && preg_match( '#(' . $rejected_files . ')#', $path ) ) || ( ! empty( $scheme ) && parse_url( home_url(), PHP_URL_HOST ) !== $host && ! in_array( $host, get_rocket_i18n_host(), true ) ) ) {
+	if ( ( ! empty( $rejected_files ) && preg_match( '#(' . $rejected_files . ')#', $path ) ) || ( ! empty( $scheme ) && rocket_parse_url( home_url(), PHP_URL_HOST ) !== $host && ! in_array( $host, get_rocket_i18n_host(), true ) ) ) {
 		return $url;
 	}
 

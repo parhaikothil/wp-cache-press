@@ -74,7 +74,7 @@ function rocket_clean_studiopress_accelerator() {
 function rocket_clean_varnish_http_purge() {
 	if ( class_exists( 'VarnishPurger' ) ) {
 		$url    = home_url( '/?vhp-regex' );
-		$p      = parse_url( $url );
+		$p      = rocket_parse_url( $url );
 		$path   = '';
 		$pregex = '.*';
 
@@ -199,7 +199,7 @@ function get_rocket_ecommerce_exclude_pages() {
 			if ( it_exchange_get_page_type( $page ) === 'wordpress' ) {
 				$exchange_urls = get_rocket_i18n_translated_post_urls( it_exchange_get_page_wpid( $page ) );
 			} else {
-				$exchange_urls = array( parse_url( it_exchange_get_page_url( $page ), PHP_URL_PATH ) );
+				$exchange_urls = array( rocket_parse_url( it_exchange_get_page_url( $page ), PHP_URL_PATH ) );
 			}
 
 			$urls = array_merge( $urls, $exchange_urls );

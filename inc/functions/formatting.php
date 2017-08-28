@@ -17,7 +17,7 @@ function rocket_clean_exclude_file( $file ) {
 		return false;
 	}
 
-	$path = parse_url( $file, PHP_URL_PATH );
+	$path = rocket_parse_url( $file, PHP_URL_PATH );
 	return $path;
 }
 
@@ -70,7 +70,7 @@ function rocket_sanitize_xml( $file ) {
  * @since 1.3.0
  *
  * @param string $url The URL to parse.
- * @param bool 	 $no_dots (default: false).
+ * @param bool   $no_dots (default: false).
  * @return string $url The URL without protocol
  */
 function rocket_remove_url_protocol( $url, $no_dots = false ) {
@@ -106,13 +106,13 @@ function rocket_add_url_protocol( $url ) {
  *
  * @since 2.6
  *
- * @param 	string $url Absolute url that includes a scheme.
- * @return 	string $url URL with a scheme.
+ * @param   string $url Absolute url that includes a scheme.
+ * @return  string $url URL with a scheme.
  */
 function rocket_set_internal_url_scheme( $url ) {
 	$tmp_url = set_url_scheme( $url );
 
-	if ( parse_url( $tmp_url, PHP_URL_HOST ) === parse_url( home_url(), PHP_URL_HOST ) ) {
+	if ( rocket_parse_url( $tmp_url, PHP_URL_HOST ) === rocket_parse_url( home_url(), PHP_URL_HOST ) ) {
 			$url = $tmp_url;
 	}
 
@@ -134,7 +134,7 @@ function rocket_get_domain( $url ) {
 	// Add URL protocol if the $url doesn't have one to prevent issue with parse_url.
 	$url = rocket_add_url_protocol( trim( $url ) );
 
-	$url_array = parse_url( $url );
+	$url_array = rocket_parse_url( $url );
 	$host = $url_array['host'];
 	/**
 	 * Filters the tld max range for edge cases
@@ -153,6 +153,61 @@ function rocket_get_domain( $url ) {
 }
 
 /**
+ * A wrapper for wp_parse_url() function that handles consistency in the return
+ * values across WordPress and PHP versions.
+ *
+ * @since 2.10.7
+ *
+ * @param string $url       The URL to parse.
+ * @param int    $component The specific component to retrieve. Use one of the PHP
+ *                          predefined constants to specify which one.
+ *                          Defaults to -1 (= return all parts as an array).
+ * @return mixed False on parse failure; Array of URL components on success;
+ *               When a specific component has been requested: null if the component
+ *               doesn't exist in the given URL; a string or - in the case of
+ *               PHP_URL_PORT - integer when it does. See parse_url()'s return values.
+ */
+function rocket_parse_url( $url, $component = -1 ) {
+	// Fallback to wp_parse_url() function on WordPress >= 4.7 even if we are
+	// running on a kind of compatible PHP >= 5.4.7.
+	if ( version_compare( $GLOBALS['wp_version'], '4.7', '>=' ) ) {
+		return wp_parse_url( $url, $component );
+	}
+
+	// wp_parse_url() function on WordPress < 4.7 does not support $component
+	// parameter and this is a workaround to support it with an ignorance to the
+	// fact if we are running on PHP >= 5.4.7 or not.
+	$to_unset = array();
+	$url = strval( $url );
+
+	if ( '//' === substr( $url, 0, 2 ) ) {
+		$to_unset[] = 'scheme';
+		$url = 'placeholder:' . $url;
+	} elseif ( '/' === substr( $url, 0, 1 ) ) {
+		$to_unset[] = 'scheme';
+		$to_unset[] = 'host';
+		$url = 'placeholder://placeholder' . $url;
+	}
+
+	// @codingStandardsIgnoreLine
+	$parts = @parse_url( $url );
+
+	if ( false === $parts ) {
+		// Parsing failure.
+		return $parts;
+	}
+
+	// Remove the placeholder values.
+	foreach ( $to_unset as $key ) {
+		unset( $parts[ $key ] );
+	}
+
+	// Dependencies in inc/compat.php: _get_component_from_parsed_url_array()
+	// and _wp_translate_php_url_constant_to_key().
+	return _get_component_from_parsed_url_array( $parts, $component );
+}
+
+/**
  * Extract and return host, path, query and scheme of an URL
  *
  * @since 2.1 Add $query variable
@@ -166,7 +221,7 @@ function get_rocket_parse_url( $url ) {
 		return;
 	}
 
-	$url    = wp_parse_url( $url );
+	$url    = rocket_parse_url( $url );
 	$host   = isset( $url['host'] ) ? strtolower( $url['host'] ) : '';
 	$path   = isset( $url['path'] ) ? $url['path'] : '';
 	$scheme = isset( $url['scheme'] ) ? $url['scheme'] : '';
@@ -195,7 +250,7 @@ function get_rocket_parse_url( $url ) {
 function rocket_get_cache_busting_paths( $filename, $extension ) {
 	$blog_id                = get_current_blog_id();
 	$cache_busting_path     = WP_ROCKET_CACHE_BUSTING_PATH . $blog_id . '/';
-	$filename				= rtrim( str_replace( array( '/', ' ', '%20' ), '-', $filename ) );
+	$filename               = rtrim( str_replace( array( '/', ' ', '%20' ), '-', $filename ) );
 	$cache_busting_filepath = $cache_busting_path . $filename;
 	$cache_busting_url      = get_rocket_cdn_url( WP_ROCKET_CACHE_BUSTING_URL . $blog_id . '/' . $filename, array( 'all', 'css_and_js', $extension ) );
 

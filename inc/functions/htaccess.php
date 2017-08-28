@@ -74,7 +74,7 @@ function rocket_htaccess_rules_test( $rules_name ) {
 		'user-agent'  => 'wprocketbot',
 		'cookies'     => $_COOKIE,
 	) );
-		
+
 	$response = wp_remote_get( site_url( WP_ROCKET_URL . 'tests/' . $rules_name . '/index.html' ), $request_args );
 
 	if ( is_wp_error( $response ) ) {
@@ -158,10 +158,10 @@ function get_rocket_htaccess_mod_rewrite() {
 	}
 
 	// Get root base.
-	$home_root = parse_url( home_url() );
+	$home_root = rocket_parse_url( home_url() );
 	$home_root = isset( $home_root['path'] ) ? trailingslashit( $home_root['path'] ) : '/';
 
-	$site_root = parse_url( site_url() );
+	$site_root = rocket_parse_url( site_url() );
 	$site_root = isset( $site_root['path'] ) ? trailingslashit( $site_root['path'] ) : '';
 
 	// Get cache root.

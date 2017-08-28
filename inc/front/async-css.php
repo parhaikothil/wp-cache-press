@@ -32,7 +32,7 @@ function rocket_async_css( $buffer ) {
 
 	foreach ( $tags_match[0] as $i => $tag ) {
 		// Strip query args.
-		$path = parse_url( $tags_match[2][ $i ] , PHP_URL_PATH );
+		$path = rocket_parse_url( $tags_match[2][ $i ] , PHP_URL_PATH );
 
 		// Check if this file should be deferred.
 		if ( isset( $excluded_css[ $path ] ) ) {
@@ -49,7 +49,7 @@ function rocket_async_css( $buffer ) {
 		$noscripts .= '<noscript>' . $tags_match[0][ $i ] . '</noscript>';
 	}
 
-	$buffer = str_replace( '</html>', $noscripts . '</html>', $buffer );	
+	$buffer = str_replace( '</html>', $noscripts . '</html>', $buffer );
 
 	return $buffer;
 }

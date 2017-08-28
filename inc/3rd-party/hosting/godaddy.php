@@ -114,7 +114,7 @@ HTACCESS;
 	 */
 	function rocket_godaddy_request( $method, $url = null ) {
 		$url  = empty( $url ) ? home_url() : $url;
-		$host = parse_url( $url, PHP_URL_HOST );
+		$host = rocket_parse_url( $url, PHP_URL_HOST );
 		$url  = set_url_scheme( str_replace( $host, WPaas\Plugin::vip(), $url ), 'http' );
 
 		wp_cache_flush();

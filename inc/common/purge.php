@@ -140,7 +140,7 @@ function rocket_clean_post( $post_id ) {
 	$permalink = str_replace( array( '%postname%', '%pagename%' ), $permalink_structure[1], $permalink_structure[0] );
 
 	// Add permalink.
-	if ( parse_url( $permalink, PHP_URL_PATH ) !== '/' ) {
+	if ( rocket_parse_url( $permalink, PHP_URL_PATH ) !== '/' ) {
 		array_push( $purge_urls, $permalink );
 	}
 

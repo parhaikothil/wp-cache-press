@@ -89,7 +89,7 @@ function rocket_insert_minify_js_in_footer() {
 		}
 
 		global $rocket_enqueue_js_in_footer;
-		$home_host      = parse_url( home_url(), PHP_URL_HOST );
+		$home_host      = rocket_parse_url( home_url(), PHP_URL_HOST );
 		$files          = get_rocket_minify_js_in_footer();
 		$ordered_files  = array();
 
@@ -268,7 +268,7 @@ function rocket_minify_inline_js( $js ) {
  * @return string Updated HTML content
  */
 function rocket_minify_css( $buffer ) {
-	$home_host            = parse_url( home_url(), PHP_URL_HOST );
+	$home_host            = rocket_parse_url( home_url(), PHP_URL_HOST );
 	$internal_files       = array();
 	$external_tags        = '';
 	$excluded_tags        = '';
@@ -293,13 +293,13 @@ function rocket_minify_css( $buffer ) {
 			$excluded_tag = false;
 
 			// Get URLs infos.
-			$css_url  = parse_url( set_url_scheme( $tags_match[1][ $i ] ) );
+			$css_url  = rocket_parse_url( set_url_scheme( $tags_match[1][ $i ] ) );
 
 			// Get host for all langs.
 			$langs_host = array();
 			if ( $langs = get_rocket_i18n_uri() ) {
 				foreach ( $langs as $lang ) {
-					$langs_host[] = parse_url( $lang, PHP_URL_HOST );
+					$langs_host[] = rocket_parse_url( $lang, PHP_URL_HOST );
 				}
 			}
 
@@ -350,7 +350,7 @@ function rocket_minify_css( $buffer ) {
  * @return string Updated HTML content
  */
 function rocket_minify_js( $buffer ) {
-	$home_host            = parse_url( home_url(), PHP_URL_HOST );
+	$home_host            = rocket_parse_url( home_url(), PHP_URL_HOST );
 	$internal_files       = array();
 	$external_tags        = array();
 	$excluded_tags        = '';
@@ -377,13 +377,13 @@ function rocket_minify_js( $buffer ) {
 			$js_url_with_scheme = set_url_scheme( $tags_match[1][ $i ] );
 
 	        // Get URL infos.
-	        $js_url = parse_url( $js_url_with_scheme );
+	        $js_url = rocket_parse_url( $js_url_with_scheme );
 
 			// Get host for all langs.
 			$langs_host = array();
 			if ( $langs = get_rocket_i18n_uri() ) {
 				foreach ( $langs as $lang ) {
-					$langs_host[] = parse_url( $lang, PHP_URL_HOST );
+					$langs_host[] = rocket_parse_url( $lang, PHP_URL_HOST );
 				}
 			}
 
@@ -466,12 +466,12 @@ function rocket_minify_js( $buffer ) {
 function rocket_minify_only( $buffer, $extension ) {
 	// Get host of CNAMES.
 	$hosts = get_rocket_cnames_host( array( 'all', 'css_and_js', 'css' ) );
-	$home_host = parse_url( home_url(), PHP_URL_HOST );
+	$home_host = rocket_parse_url( home_url(), PHP_URL_HOST );
 	$hosts[] = $home_host;
 	// Get host for all langs.
 	if ( $langs = get_rocket_i18n_uri() ) {
 		foreach ( $langs as $lang ) {
-			$hosts[] = parse_url( $lang, PHP_URL_HOST );
+			$hosts[] = rocket_parse_url( $lang, PHP_URL_HOST );
 		}
 	}
 
@@ -597,7 +597,7 @@ function rocket_inject_ie_conditionals( $buffer, $conditionals ) {
  * @return string Updated URL
  */
 function rocket_fix_ssl_minify( $url ) {
-	if ( is_ssl() && false === strpos( $url, 'https://' ) && ! in_array( parse_url( $url, PHP_URL_HOST ), get_rocket_cnames_host( array( 'all', 'css_js', 'css', 'js' ) ), true ) ) {
+	if ( is_ssl() && false === strpos( $url, 'https://' ) && ! in_array( rocket_parse_url( $url, PHP_URL_HOST ), get_rocket_cnames_host( array( 'all', 'css_js', 'css', 'js' ) ), true ) ) {
 		$url = str_replace( 'http://', 'https://', $url );
 	}
 
@@ -717,7 +717,7 @@ function rocket_extract_js_files_from_footer() {
 		$rocket_enqueue_js_in_footer[] = ( NRELATE_JS_DEBUG ) ? 'http://staticrepo.nrelate.com/common_wp/' . NRELATE_PLUGIN_VERSION . '/nrelate_js.js' : NRELATE_ADMIN_URL . '/nrelate_js.min.js';
 	}
 
-	$home_host            = parse_url( home_url(), PHP_URL_HOST );
+	$home_host            = rocket_parse_url( home_url(), PHP_URL_HOST );
 	$deferred_js_files    = get_rocket_deferred_js_files();
 	$excluded_js 		  = get_rocket_exclude_js();
 	$excluded_external_js = get_rocket_minify_excluded_external_js();
@@ -727,7 +727,7 @@ function rocket_extract_js_files_from_footer() {
 		$script_src  = ( strstr( $script_src, '/wp-includes/js/' ) ) ? $wp_scripts->base_url . $script_src : $script_src;
 		$script_src_cleaned = str_replace( array( 'http:', 'https:', '//' . $home_host ), '', $script_src );
 
-		if ( ! in_array( parse_url( $script_src, PHP_URL_HOST ), $excluded_external_js, true ) && ! in_array( $script_src, $deferred_js_files, true ) && ! in_array( parse_url( $script_src, PHP_URL_PATH ), $excluded_js, true ) && ! in_array( parse_url( $script_src_cleaned, PHP_URL_PATH ), $excluded_js, true ) ) {
+		if ( ! in_array( rocket_parse_url( $script_src, PHP_URL_HOST ), $excluded_external_js, true ) && ! in_array( $script_src, $deferred_js_files, true ) && ! in_array( rocket_parse_url( $script_src, PHP_URL_PATH ), $excluded_js, true ) && ! in_array( rocket_parse_url( $script_src_cleaned, PHP_URL_PATH ), $excluded_js, true ) ) {
 			if ( isset( $rocket_js_enqueued_in_head[ $handle ] ) ) {
 				continue;
 			}
@@ -736,9 +736,9 @@ function rocket_extract_js_files_from_footer() {
 			if ( pathinfo( $script_src, PATHINFO_EXTENSION ) === '' ) {
 				wp_dequeue_script( $handle );
 			}
-			
+
 			// Add protocol on external JS to prevent conflict.
-			if ( parse_url( $script_src, PHP_URL_HOST ) !== $home_host && false === strpos( $script_src, 'http://' ) && false === strpos( $script_src, 'https://' ) ) {
+			if ( rocket_parse_url( $script_src, PHP_URL_HOST ) !== $home_host && false === strpos( $script_src, 'http://' ) && false === strpos( $script_src, 'https://' ) ) {
 				$script_src = set_url_scheme( $script_src );
 			}
 
@@ -824,7 +824,7 @@ function rocket_minify_i18n_multidomain( $url ) {
 		return $url;
 	}
 
-	$url_host = parse_url( $url, PHP_URL_HOST );
+	$url_host = rocket_parse_url( $url, PHP_URL_HOST );
 	$zone     = array( 'all', 'css_and_js' );
 	$current_filter = current_filter();
 

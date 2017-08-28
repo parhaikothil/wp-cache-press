@@ -160,11 +160,11 @@ function rocket_cdn_images( $html ) {
 			// Image path is relative, apply the host to it.
 			if ( empty( $host ) ) {
 				$image_url = $home_url . ltrim( $image_url, '/' );
-				$host = parse_url( $image_url, PHP_URL_HOST );
+				$host = rocket_parse_url( $image_url, PHP_URL_HOST );
 			}
 
 			// Check if the link isn't external.
-			if ( parse_url( $home_url, PHP_URL_HOST ) !== $host ) {
+			if ( rocket_parse_url( $home_url, PHP_URL_HOST ) !== $host ) {
 				continue;
 			}
 
@@ -306,7 +306,7 @@ function rocket_cdn_enqueue( $src ) {
 		return $src;
 	}
 
-	if ( parse_url( $src, PHP_URL_HOST ) !== '' ) {
+	if ( rocket_parse_url( $src, PHP_URL_HOST ) !== '' ) {
 		$src  = rocket_add_url_protocol( $src );
 	}
 
@@ -324,7 +324,7 @@ function rocket_cdn_enqueue( $src ) {
 
 	if ( $cnames = get_rocket_cdn_cnames( $zone ) ) {
 		// Check if the path isn't empty.
-		if ( trim( parse_url( $src, PHP_URL_PATH ), '/' ) !== '' ) {
+		if ( trim( rocket_parse_url( $src, PHP_URL_PATH ), '/' ) !== '' ) {
 			$src = get_rocket_cdn_url( $src, $zone );
 		}
 	}

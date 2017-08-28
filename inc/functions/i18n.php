@@ -192,7 +192,7 @@ function get_rocket_i18n_host() {
 
 	if ( $langs = get_rocket_i18n_uri() ) {
 		foreach ( $langs as $lang ) {
-			$langs_host[] = parse_url( $lang, PHP_URL_HOST );
+			$langs_host[] = rocket_parse_url( $lang, PHP_URL_HOST );
 		}
 	}
 
@@ -362,7 +362,7 @@ function get_rocket_i18n_home_url( $lang = '' ) {
  */
 function get_rocket_i18n_translated_post_urls( $post_id, $post_type = 'page', $regex = null ) {
 	$urls  = array();
-	$path  = parse_url( get_permalink( $post_id ), PHP_URL_PATH );
+	$path  = rocket_parse_url( get_permalink( $post_id ), PHP_URL_PATH );
 	$langs = get_rocket_i18n_code();
 
 	if ( empty( $path ) ) {
@@ -372,7 +372,7 @@ function get_rocket_i18n_translated_post_urls( $post_id, $post_type = 'page', $r
 	// WPML.
 	if ( rocket_is_plugin_active( 'sitepress-multilingual-cms/sitepress.php' ) ) {
 		foreach ( $langs as $lang ) {
-			$urls[] = parse_url( get_permalink( icl_object_id( $post_id, $post_type, true, $lang ) ), PHP_URL_PATH ) . $regex;
+			$urls[] = rocket_parse_url( get_permalink( icl_object_id( $post_id, $post_type, true, $lang ) ), PHP_URL_PATH ) . $regex;
 		}
 	}
 
@@ -381,13 +381,13 @@ function get_rocket_i18n_translated_post_urls( $post_id, $post_type = 'page', $r
 		$langs  = $GLOBALS['q_config']['enabled_languages'];
 		$langs  = array_diff( $langs, array( $GLOBALS['q_config']['default_language'] ) );
 		$url    = get_permalink( $post_id );
-		$urls[] = parse_url( get_permalink( $post_id ), PHP_URL_PATH ) . $regex;
+		$urls[] = rocket_parse_url( get_permalink( $post_id ), PHP_URL_PATH ) . $regex;
 
 		foreach ( $langs as $lang ) {
 			if ( rocket_is_plugin_active( 'qtranslate/qtranslate.php' ) ) {
-				$urls[] = parse_url( qtrans_convertURL( $url, $lang, true ), PHP_URL_PATH ) . $regex;
+				$urls[] = rocket_parse_url( qtrans_convertURL( $url, $lang, true ), PHP_URL_PATH ) . $regex;
 			} elseif ( rocket_is_plugin_active( 'qtranslate-x/qtranslate.php' ) ) {
-				$urls[] = parse_url( qtranxf_convertURL( $url, $lang, true ), PHP_URL_PATH ) . $regex;
+				$urls[] = rocket_parse_url( qtranxf_convertURL( $url, $lang, true ), PHP_URL_PATH ) . $regex;
 			}
 		}
 	}
@@ -402,7 +402,7 @@ function get_rocket_i18n_translated_post_urls( $post_id, $post_type = 'page', $r
 
 		if ( ! empty( $translations ) ) {
 		    foreach ( $translations as $post_id ) {
-		    	$urls[] = parse_url( get_permalink( $post_id ), PHP_URL_PATH ) . $regex;
+		    	$urls[] = rocket_parse_url( get_permalink( $post_id ), PHP_URL_PATH ) . $regex;
 		    }
 		}
 	}

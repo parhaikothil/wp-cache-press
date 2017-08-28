@@ -80,7 +80,7 @@ function get_rocket_minify_file( $file, $force_pretty_url = true, $pretty_filena
 
 	$base_url 	= WP_ROCKET_URL . 'min/?f=';
 
-	$file = parse_url( $file, PHP_URL_PATH );
+	$file = rocket_parse_url( $file, PHP_URL_PATH );
 	$file = trim( $file );
 
 	if ( empty( $file ) ) {
@@ -187,7 +187,7 @@ function get_rocket_minify_files( $files, $force_pretty_url = true, $pretty_file
 
 	$i = 0;
 	foreach ( $files as $file ) {
-		$file = parse_url( $file, PHP_URL_PATH );
+		$file = rocket_parse_url( $file, PHP_URL_PATH );
 		$file = trim( $file );
 
 		if ( empty( $file ) ) {
