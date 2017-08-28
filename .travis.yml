@@ -3,6 +3,17 @@ dist: trusty
 
 language: php
 
+notifications:
+  email:
+    on_start: never
+    on_failure: always
+    on_success: change
+    on_pull_requests: false
+
+branches:
+  only:
+    - master
+
 cache:
   apt: true
   directories:
@@ -54,20 +65,16 @@ before_install:
     else
       echo "xdebug.ini does not exist"
     fi
-  - |
-    # Install WordPress instance tests:
-    if [[ ! -z "$WP_VERSION" ]] ; then
-      bash bin/install-wp-tests.sh wordpress_test root '' localhost $WP_VERSION
-    fi
 
 before_script:
   - |
     # Export Composer's global bin dir to PATH:
-    composer config --list --global
-    export PATH=`composer config --list --global | grep '\[home\]' | { read a; echo "${a#* }/vendor/bin:$PATH"; }`
+    export PATH="$HOME/.composer/vendor/bin:$PATH"
   - |
-    # Install the specified version of PHPUnit depending on the PHP version:
     if [[ ! -z "$WP_VERSION" ]] ; then
+      # Install WordPress test instance:
+      bash bin/install-wp-tests.sh wordpress_test root '' localhost $WP_VERSION
+      # Install the specified version of PHPUnit depending on the PHP version:
       case "$TRAVIS_PHP_VERSION" in
         nightly|7.2)
           echo "Using PHPUnit 6.x"
@@ -88,31 +95,22 @@ before_script:
       esac
     fi
   - |
-    # Preparation for PHPCS:
     if [[ "$TRAVISCI" == "phpcs" ]] ; then
-      composer install
+      # Prepare PHPCS:
+      composer global require wp-coding-standards/wpcs
+      phpcs --config-set installed_paths $HOME/.composer/vendor/wp-coding-standards/wpcs
     fi
 
 script:
   - |
-    # Run PHPUnit tests:
     if [[ ! -z "$WP_VERSION" ]] ; then
-      # Run single-site tests:
-      export WP_MULTISITE=0
-      phpunit || exit 1
-      # Run multi-site tests:
-      export WP_MULTISITE=1
-      phpunit || exit 1
+      # Run single-site PHPUnit tests:
+      phpunit
+      # Run multi-site PHPUnit tests:
+      WP_MULTISITE=1 phpunit
     fi
   - |
-    # Run PHPCS tests:
     if [[ "$TRAVISCI" == "phpcs" ]] ; then
-      ./vendor/bin/phpcs
+      # Run PHPCS tests:
+      phpcs
     fi
-
-notifications:
-  email:
-    on_start: never
-    on_failure: always
-    on_success: change
-    on_pull_requests: false
