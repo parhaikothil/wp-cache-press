@@ -3,10 +3,6 @@ dist: trusty
 
 language: php
 
-branches:
-  only:
-    - master
-
 cache:
   apt: true
   directories:
@@ -14,62 +10,43 @@ cache:
     - $HOME/.composer/cache
 
 matrix:
+  fast_finish: true
   include:
     - php: 5.3
       sudo: required
       dist: precise
-      env: WP_VERSION=4.0 WP_MULTISITE=0
+      env: WP_VERSION=4.0
     - php: 5.3
       sudo: required
       dist: precise
-      env: WP_VERSION=4.0 WP_MULTISITE=1
-    - php: 5.3
-      sudo: required
-      dist: precise
-      env: WP_VERSION=latest WP_MULTISITE=0
-    - php: 5.3
-      sudo: required
-      dist: precise
-      env: WP_VERSION=latest WP_MULTISITE=1
+      env: WP_VERSION=latest
+    - php: 5.4
+      env: WP_VERSION=4.0
+    - php: 5.4
+      env: WP_VERSION=latest
+    - php: 5.5
+      env: WP_VERSION=4.0
+    - php: 5.5
+      env: WP_VERSION=latest
     - php: 5.6
-      env: WP_VERSION=4.0 WP_MULTISITE=0
+      env: WP_VERSION=4.0
     - php: 5.6
-      env: WP_VERSION=4.0 WP_MULTISITE=1
-    - php: 5.6
-      env: WP_VERSION=latest WP_MULTISITE=0
-    - php: 5.6
-      env: WP_VERSION=latest WP_MULTISITE=1
+      env: WP_VERSION=latest
     - php: 7.0
-      env: WP_VERSION=4.0 WP_MULTISITE=0
+      env: WP_VERSION=4.0
     - php: 7.0
-      env: WP_VERSION=4.0 WP_MULTISITE=1
-    - php: 7.0
-      env: WP_VERSION=latest WP_MULTISITE=0
-    - php: 7.0
-      env: WP_VERSION=latest WP_MULTISITE=1
+      env: WP_VERSION=latest
     - php: 7.1
-      env: WP_VERSION=4.0 WP_MULTISITE=0
+      env: WP_VERSION=4.0
     - php: 7.1
-      env: WP_VERSION=4.0 WP_MULTISITE=1
-    - php: 7.1
-      env: WP_VERSION=latest WP_MULTISITE=0
-    - php: 7.1
-      env: WP_VERSION=latest WP_MULTISITE=1
+      env: WP_VERSION=latest
     - php: 5.6
       env: TRAVISCI=phpcs
   allow_failures:
     - php: 5.6
       env: TRAVISCI=phpcs
-  fast_finish: true
 
 before_install:
-  - |
-    # Install WordPress instance tests:
-    if [[ ! -z "$WP_VERSION" ]] ; then
-      bash bin/install-wp-tests.sh wordpress_test root '' localhost $WP_VERSION
-    fi
-
-before_script:
   - |
     # Remove Xdebug for a huge performance increase:
     if [ -f ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini ]; then
@@ -77,6 +54,13 @@ before_script:
     else
       echo "xdebug.ini does not exist"
     fi
+  - |
+    # Install WordPress instance tests:
+    if [[ ! -z "$WP_VERSION" ]] ; then
+      bash bin/install-wp-tests.sh wordpress_test root '' localhost $WP_VERSION
+    fi
+
+before_script:
   - |
     # Export Composer's global bin dir to PATH:
     composer config --list --global
@@ -113,6 +97,11 @@ script:
   - |
     # Run PHPUnit tests:
     if [[ ! -z "$WP_VERSION" ]] ; then
+      # Run single-site tests:
+      export WP_MULTISITE=0
+      phpunit || exit 1
+      # Run multi-site tests:
+      export WP_MULTISITE=1
       phpunit || exit 1
     fi
   - |
