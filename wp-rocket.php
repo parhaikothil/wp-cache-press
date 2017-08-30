@@ -16,7 +16,7 @@
  * Copyright 2013-2017 WP Rocket
  * */
 
-defined( 'ABSPATH' ) or die( 'Cheatin&#8217; uh?' );
+defined( 'ABSPATH' ) || die( 'Cheatin&#8217; uh?' );
 
 // Rocket defines.
 define( 'WP_ROCKET_VERSION'             , '2.10.7' );

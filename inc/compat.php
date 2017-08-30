@@ -1,5 +1,5 @@
 <?php
-defined( 'ABSPATH' ) or die( 'Cheatin&#8217; uh?' );
+defined( 'ABSPATH' ) || die( 'Cheatin&#8217; uh?' );
 
 // WP <3.5 defines.
 if ( ! defined( 'SECOND_IN_SECONDS' ) ) {

@@ -1,10 +1,10 @@
 <?php
-defined( 'ABSPATH' ) || die( 'Cheatin\' uh?' );
+defined( 'ABSPATH' ) || die( 'Cheatin&#8217; uh?' );
 
 
 /**
  * Clear cache when ACF options page is updated.
- * 
+ *
  * @since 2.10.7
  * @author Remy Perona
  *

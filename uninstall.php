@@ -1,5 +1,5 @@
 <?php
-defined( 'WP_UNINSTALL_PLUGIN' ) or die( 'Cheatin&#8217; uh?' );
+defined( 'WP_UNINSTALL_PLUGIN' ) || die( 'Cheatin&#8217; uh?' );
 
 // Delete all transients.
 delete_site_transient( 'update_wprocket' );

@@ -1,5 +1,5 @@
 <?php
-defined( 'ABSPATH' ) or	die( 'Cheatin&#8217; uh?' );
+defined( 'ABSPATH' ) || die( 'Cheatin&#8217; uh?' );
 
 /**
  * Generate the content of advanced-cache.php file
@@ -11,7 +11,7 @@ defined( 'ABSPATH' ) or	die( 'Cheatin&#8217; uh?' );
  */
 function get_rocket_advanced_cache_file() {
 	$buffer = '<?php' . "\n";
-	$buffer .= 'defined( \'ABSPATH\' ) or die( \'Cheatin\\\' uh?\' );' . "\n\n";
+	$buffer .= 'defined( \'ABSPATH\' ) || die( \'Cheatin&#8217; uh?\' );' . "\n\n";
 
 	// Add a constant to be sure this is our file.
 	$buffer .= 'define( \'WP_ROCKET_ADVANCED_CACHE\', true );' . "\n";
@@ -75,7 +75,7 @@ function get_rocket_config_file() {
 	}
 
 	$buffer = '<?php' . "\n";
-	$buffer .= 'defined( \'ABSPATH\' ) or die( \'Cheatin\\\' uh?\' );' . "\n\n";
+	$buffer .= 'defined( \'ABSPATH\' ) || die( \'Cheatin&#8217; uh?\' );' . "\n\n";
 
 	if ( apply_filters( 'rocket_override_min_documentRoot', false ) ) {
 		/**

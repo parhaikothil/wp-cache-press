@@ -1,5 +1,5 @@
 <?php
-defined( 'ABSPATH' ) or	die( 'Cheatin&#8217; uh?' );
+defined( 'ABSPATH' ) || die( 'Cheatin&#8217; uh?' );
 
 // Launch hooks that deletes all the cache domain
 add_action( 'switch_theme'				,     'rocket_clean_domain' );	// When user change theme

@@ -1,5 +1,5 @@
 <?php
-defined( 'ABSPATH' ) or die( 'Cheatin&#8217; uh?' );
+defined( 'ABSPATH' ) || die( 'Cheatin&#8217; uh?' );
 
 add_settings_section( 'rocket_display_support', __( 'Support', 'rocket' ), '__return_false', 'rocket_support' );
 
