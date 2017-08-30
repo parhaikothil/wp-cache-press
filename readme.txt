@@ -3,6 +3,7 @@ Contributors: mnemotiv, wpcachepress, novatemple
 Tags: cache, caching, optimize, performance, optimization, speed, cloudflare, cdn, nginx, varnish, minify, minification
 Requires at least: 4.0
 Tested up to: 4.8
+Requires PHP: 5.3
 Stable tag: 1.0.0
 License: GPLv2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
