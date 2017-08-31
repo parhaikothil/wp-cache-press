@@ -153,23 +153,6 @@ function rocket_get_domain( $url ) {
 }
 
 /**
- * Extract a component from an URL.
- *
- * @since 2.11
- * @author Remy Perona
- *
- * @param string $url URL to parse and extract component of.
- * @param string $component The specific component to retrieve. Use one of the PHP
- *                          predefined constants to specify which one.
- *                          Defaults to -1 (= return all parts as an array).
- *                          @see http://php.net/manual/en/function.parse-url.php
- * @return string extracted component
- */
-function rocket_parse_url( $url, $component = -1 ) {
-	return _get_component_from_parsed_url_array( wp_parse_url( $url ), $component );
-}
-
-/**
  * Extract and return host, path, query and scheme of an URL
  *
  * @since 2.1 Add $query variable
@@ -197,6 +180,23 @@ function get_rocket_parse_url( $url ) {
 	 * @param array Components of an URL
 	*/
 	return apply_filters( 'rocket_parse_url', array( $host, $path, $scheme, $query ) );
+}
+
+/**
+ * Extract a component from an URL.
+ *
+ * @since 2.11
+ * @author Remy Perona
+ *
+ * @param string $url URL to parse and extract component of.
+ * @param string $component The specific component to retrieve. Use one of the PHP
+ *                          predefined constants to specify which one.
+ *                          Defaults to -1 (= return all parts as an array).
+ *                          @see http://php.net/manual/en/function.parse-url.php
+ * @return string extracted component
+ */
+function rocket_parse_url( $url, $component = -1 ) {
+	return _get_component_from_parsed_url_array( wp_parse_url( $url ), $component );
 }
 
 /**
