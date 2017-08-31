@@ -13,7 +13,7 @@ delete_option( 'wp_rocket_settings' );
 // Delete Compatibility options.
 delete_option( 'rocket_jetpack_eu_cookie_widget' );
 
-// Delete all user meta related to WP Rocket
+// Delete all user meta related to WP Rocket.
 delete_metadata( 'user', '', 'rocket_boxes', '', true );
 
 // Clear scheduled WP Rocket Cron.
@@ -34,10 +34,11 @@ function rocket_uninstall_rrmdir( $dir ) {
 		return;
 	}
 
-	if ( $globs = glob( $dir . '/*', GLOB_NOSORT ) ) {
-	    foreach ( $globs as $file ) {
+	$globs = glob( $dir . '/*', GLOB_NOSORT );
+	if ( $globs ) {
+		foreach ( $globs as $file ) {
 			is_dir( $file ) ? rocket_uninstall_rrmdir( $file ) : @unlink( $file );
-	    }
+		}
 	}
 
 	@rmdir( $dir );
