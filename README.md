@@ -1,8 +1,13 @@
 # WP Cache Press
 
-[![Build Status](https://travis-ci.org/novatemple/wp-cache-press.svg?branch=master)](https://travis-ci.org/novatemple/wp-cache-press)
+[![Travis build status](https://travis-ci.org/novatemple/wp-cache-press.svg?branch=master)](https://travis-ci.org/novatemple/wp-cache-press)
+[![GitHub release version](https://img.shields.io/github/release/novatemple/wp-cache-press.svg)](https://github.com/novatemple/wp-cache-press/releases)
+[![GitHub all releases downloads](https://img.shields.io/github/downloads/novatemple/wp-cache-press/total.svg)](https://github.com/novatemple/wp-cache-press/releases)
 [![GitHub license](https://img.shields.io/badge/license-GPLv2-blue.svg)](https://github.com/novatemple/wp-cache-press/blob/master/license.txt)
-[![Github All Releases](https://img.shields.io/github/downloads/novatemple/wp-cache-press/total.svg)](https://github.com/novatemple/wp-cache-press/releases)
+[![WordPress plugin version](https://img.shields.io/wordpress/plugin/v/wp-cache-press.svg)](https://wordpress.org/plugins/wp-cache-press/)
+[![WordPress tested](https://img.shields.io/wordpress/v/wp-cache-press.svg)](https://wordpress.org/plugins/wp-cache-press/)
+[![WordPress downloads](https://img.shields.io/wordpress/plugin/dt/wp-cache-press.svg)](https://wordpress.org/plugins/wp-cache-press/)
+[![WordPress rating](https://img.shields.io/wordpress/plugin/r/wp-cache-press.svg)](https://wordpress.org/plugins/wp-cache-press/)
 
 The best caching plugin for WordPress that's simple and fast.
 
