@@ -1,32 +1,7 @@
 <?php
 defined( 'ABSPATH' ) || die( 'Cheatin&#8217; uh?' );
 
-// Are we white-labeled?
-$rwl = rocket_is_white_label();
-
 add_settings_section( 'rocket_display_tools', __( 'Tools', 'rocket' ), '__return_false', 'rocket_tools' );
-
-/**
- * Beta testing
- */
-if ( ! $rwl ) {
-
-	add_settings_field(
-		'rocket_do_beta',
-		__( 'Beta testing:', 'rocket' ),
-		'rocket_field',
-		'rocket_tools',
-		'rocket_display_tools',
-		array(
-			array(
-				'type'         => 'checkbox',
-				'label'        => __( 'Yes, I would like to receive beta versions of WP Rocket as updates. I understand that beta versions may contain unstable code, and I know how to roll back to a stable version manually if I have to.', 'rocket' ),
-				'label_for'    => 'do_beta',
-				'label_screen' => __( 'Beta Testing', 'rocket' ),
-			),
-		)
-	);
-}
 
 /**
  * Clear cache

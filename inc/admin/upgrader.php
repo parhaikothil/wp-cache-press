@@ -138,7 +138,6 @@ function rocket_first_install() {
 			'cloudflare_auto_settings'    => 0,
 			'cloudflare_old_settings'     => '',
 			'varnish_auto_purge'          => 0,
-			'do_beta'                     => 0,
 		)
 	) );
 	rocket_dismiss_box( 'rocket_warning_plugin_modification' );

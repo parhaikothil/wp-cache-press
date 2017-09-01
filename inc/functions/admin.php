@@ -45,7 +45,6 @@ function rocket_user_agent( $user_agent ) {
 	}
 
 	$bonus = ! rocket_is_white_label() ? '' : '*';
-	$bonus .= ! get_rocket_option( 'do_beta' ) ? '' : '+';
 	$new_ua = sprintf( '%s;WP-Rocket|%s%s|%s|%s|%s|;', $user_agent, WP_ROCKET_VERSION, $bonus, $consumer_key, $consumer_email, esc_url( home_url() ) );
 
 	return $new_ua;
