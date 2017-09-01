@@ -281,54 +281,6 @@ function rocket_do_options_export() {
 }
 add_action( 'admin_post_rocket_export', 'rocket_do_options_export' );
 
-/**
- * Do the rollback
- *
- * @since 2.4
- */
-function rocket_rollback() {
-	if ( ! isset( $_GET['_wpnonce'] ) || ! wp_verify_nonce( $_GET['_wpnonce'], 'rocket_rollback' ) ) {
-		wp_nonce_ays( '' );
-	}
-
-	$plugin_transient 	= get_site_transient( 'update_plugins' );
-	$plugin_folder    	= plugin_basename( dirname( WP_ROCKET_FILE ) );
-	$plugin_file      	= basename( WP_ROCKET_FILE );
-	$version          	= WP_ROCKET_LASTVERSION;
-	$c_key 				= get_rocket_option( 'consumer_key' );
-	$url 				= sprintf( 'https://wp-rocket.me/%s/wp-rocket_%s.zip', $c_key, $version );
-	$temp_array 		= array(
-		'slug'        => $plugin_folder,
-		'new_version' => $version,
-		'url'         => 'https://wp-rocket.me',
-		'package'     => $url,
-	);
-
-	$temp_object = (object) $temp_array;
-	$plugin_transient->response[ $plugin_folder . '/' . $plugin_file ] = $temp_object;
-	set_site_transient( 'update_plugins', $plugin_transient );
-
-	$c_key = get_rocket_option( 'consumer_key' );
-	$transient = get_transient( 'rocket_warning_rollback' );
-
-	if ( false === $transient ) {
-		require_once( ABSPATH . 'wp-admin/includes/class-wp-upgrader.php' );
-		// translators: %s is the plugin name.
-		$title = sprintf( __( '%s Update Rollback', 'rocket' ), WP_ROCKET_PLUGIN_NAME );
-		$plugin = 'wp-cache-press/wp-cache-press.php';
-		$nonce = 'upgrade-plugin_' . $plugin;
-		$url = 'update.php?action=upgrade-plugin&plugin=' . rawurlencode( $plugin );
-		$upgrader_skin = new Plugin_Upgrader_Skin( compact( 'title', 'nonce', 'url', 'plugin' ) );
-		$upgrader = new Plugin_Upgrader( $upgrader_skin );
-		$upgrader->upgrade( $plugin );
-		// translators: %s is the plugin name.
-		wp_die( '', sprintf( __( '%s Update Rollback', 'rocket' ), WP_ROCKET_PLUGIN_NAME ), array(
-			'response' => 200,
-		) );
-	}
-}
-add_action( 'admin_post_rocket_rollback', 'rocket_rollback' );
-
 if ( ! defined( 'DOING_AJAX' ) && ! defined( 'DOING_AUTOSAVE' ) ) {
 	add_action( 'admin_init', 'rocket_init_cache_dir' );
 	add_action( 'admin_init', 'rocket_maybe_generate_advanced_cache_file' );
