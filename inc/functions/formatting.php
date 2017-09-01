@@ -189,10 +189,7 @@ function get_rocket_parse_url( $url ) {
  * @author Remy Perona
  *
  * @param string $url URL to parse and extract component of.
- * @param string $component The specific component to retrieve. Use one of the PHP
- *                          predefined constants to specify which one.
- *                          Defaults to -1 (= return all parts as an array).
- *                          @see http://php.net/manual/en/function.parse-url.php
+ * @param string $component URL component to extract using constant as in parse_url().
  * @return string extracted component
  */
 function rocket_parse_url( $url, $component = -1 ) {
