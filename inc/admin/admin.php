@@ -320,7 +320,6 @@ function rocket_rollback() {
 		$url = 'update.php?action=upgrade-plugin&plugin=' . rawurlencode( $plugin );
 		$upgrader_skin = new Plugin_Upgrader_Skin( compact( 'title', 'nonce', 'url', 'plugin' ) );
 		$upgrader = new Plugin_Upgrader( $upgrader_skin );
-		remove_filter( 'site_transient_update_plugins', 'rocket_check_update', 100 );
 		$upgrader->upgrade( $plugin );
 		// translators: %s is the plugin name.
 		wp_die( '', sprintf( __( '%s Update Rollback', 'rocket' ), WP_ROCKET_PLUGIN_NAME ), array(

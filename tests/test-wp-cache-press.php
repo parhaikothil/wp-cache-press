@@ -6,9 +6,7 @@ class Test_WP_Rocket extends WP_UnitTestCase {
 		$this->assertSame( WP_ROCKET_SLUG, 'wp_rocket_settings' );
 		$this->assertSame( WP_ROCKET_WEB_MAIN, false );
 		$this->assertSame( WP_ROCKET_WEB_API, 'api/wp-rocket/' );
-		$this->assertSame( WP_ROCKET_WEB_CHECK, 'check_update.php' );
 		$this->assertSame( WP_ROCKET_WEB_VALID, 'valid_key.php' );
-		$this->assertSame( WP_ROCKET_WEB_INFO, 'plugin_information.php' );
 		$this->assertSame( WP_ROCKET_BOT_URL, 'http://bot.wp-rocket.me/launch.php' );
 
 		$file = str_replace( 'tests/test-', '', __FILE__ );
@@ -94,7 +92,6 @@ class Test_WP_Rocket extends WP_UnitTestCase {
 
 		$this->assertFileExists( WP_ROCKET_ADMIN_PATH . 'ajax.php' );
 		$this->assertFileExists( WP_ROCKET_ADMIN_PATH . 'upgrader.php' );
-		$this->assertFileExists( WP_ROCKET_ADMIN_PATH . 'updater.php' );
 		$this->assertFileExists( WP_ROCKET_ADMIN_PATH . 'class-repeater-field.php' );
 		$this->assertFileExists( WP_ROCKET_ADMIN_PATH . 'options.php' );
 		$this->assertFileExists( WP_ROCKET_ADMIN_PATH . 'admin.php' );
@@ -136,7 +133,6 @@ class Test_WP_Rocket extends WP_UnitTestCase {
 		$this->assertFileExists( WP_ROCKET_3RD_PARTY_PATH . '3rd-party.php' );
 
 		$this->assertFileExists( WP_ROCKET_COMMON_PATH . 'admin-bar.php' );
-		$this->assertFileExists( WP_ROCKET_COMMON_PATH . 'updater.php' );
 		$this->assertFileExists( WP_ROCKET_COMMON_PATH . 'emoji.php' );
 		$this->assertFileExists( WP_ROCKET_COMMON_PATH . 'embeds.php' );
 		$this->assertFileExists( WP_ROCKET_COMMON_PATH . 'purge.php' );

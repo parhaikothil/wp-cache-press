@@ -2,8 +2,6 @@
 defined( 'WP_UNINSTALL_PLUGIN' ) || die( 'Cheatin&#8217; uh?' );
 
 // Delete all transients.
-delete_site_transient( 'update_wprocket' );
-delete_site_transient( 'update_wprocket_response' );
 delete_transient( 'wp_rocket_settings' );
 delete_transient( 'rocket_cloudflare_ips' );
 

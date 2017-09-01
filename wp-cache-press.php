@@ -24,9 +24,7 @@ define( 'WP_ROCKET_PRIVATE_KEY'         , false );
 define( 'WP_ROCKET_SLUG'                , 'wp_rocket_settings' );
 define( 'WP_ROCKET_WEB_MAIN'            , false );
 define( 'WP_ROCKET_WEB_API'             , WP_ROCKET_WEB_MAIN . 'api/wp-rocket/' );
-define( 'WP_ROCKET_WEB_CHECK'           , WP_ROCKET_WEB_MAIN . 'check_update.php' );
 define( 'WP_ROCKET_WEB_VALID'           , WP_ROCKET_WEB_MAIN . 'valid_key.php' );
-define( 'WP_ROCKET_WEB_INFO'            , WP_ROCKET_WEB_MAIN . 'plugin_information.php' );
 define( 'WP_ROCKET_WEB_SUPPORT'         , WP_ROCKET_WEB_MAIN . 'forums/' );
 define( 'WP_ROCKET_BOT_URL'             , 'http://bot.wp-rocket.me/launch.php' );
 define( 'WP_ROCKET_FILE'                , __FILE__ );
@@ -122,7 +120,6 @@ function rocket_init() {
 	require( WP_ROCKET_FRONT_PATH . 'theme-compatibility.php' );
 	require( WP_ROCKET_3RD_PARTY_PATH . '3rd-party.php' );
 	require( WP_ROCKET_COMMON_PATH . 'admin-bar.php' );
-	require( WP_ROCKET_COMMON_PATH . 'updater.php' );
 	require( WP_ROCKET_COMMON_PATH . 'emoji.php' );
 	require( WP_ROCKET_COMMON_PATH . 'embeds.php' );
 	require( dirname( __FILE__ ) . '/licence-data.php' );
@@ -156,7 +153,6 @@ function rocket_init() {
 	if ( is_admin() ) {
 		require( WP_ROCKET_ADMIN_PATH . 'ajax.php' );
 		require( WP_ROCKET_ADMIN_PATH . 'upgrader.php' );
-		require( WP_ROCKET_ADMIN_PATH . 'updater.php' );
 		require( WP_ROCKET_ADMIN_PATH . 'class-repeater-field.php' );
 		require( WP_ROCKET_ADMIN_PATH . 'options.php' );
 		require( WP_ROCKET_ADMIN_PATH . 'admin.php' );
@@ -249,7 +245,6 @@ function rocket_deactivation() {
 
 	delete_transient( 'rocket_check_licence_30' );
 	delete_transient( 'rocket_check_licence_1' );
-	delete_site_transient( 'update_wprocket_response' );
 }
 register_deactivation_hook( __FILE__, 'rocket_deactivation' );
 
