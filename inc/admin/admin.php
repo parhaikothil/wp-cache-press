@@ -34,7 +34,7 @@ add_filter( 'plugin_action_links_' . plugin_basename( WP_ROCKET_FILE ), 'rocket_
  * @return array Updated meta content if license is expired
  */
 function rocket_plugin_row_meta( $plugin_meta, $plugin_file ) {
-	if ( 'wp-rocket/wp-rocket.php' === $plugin_file ) {
+	if ( 'wp-cache-press/wp-cache-press.php' === $plugin_file ) {
 
 		$update_plugins = get_site_transient( 'update_plugins' );
 
@@ -219,15 +219,15 @@ add_action( 'admin_post_rocket_resetwl', 'rocket_reset_white_label_values_action
 function rocket_white_label( $plugins ) {
 	$white_label_description = get_rocket_option( 'wl_description' );
 	// We change the plugin's header.
-	$plugins['wp-rocket/wp-rocket.php'] = array(
+	$plugins['wp-cache-press/wp-cache-press.php'] = array(
 			'Name'			=> get_rocket_option( 'wl_plugin_name' ),
 			'PluginURI'		=> get_rocket_option( 'wl_plugin_URI' ),
-			'Version'		=> isset( $plugins['wp-rocket/wp-rocket.php']['Version'] ) ? $plugins['wp-rocket/wp-rocket.php']['Version'] : '',
+			'Version'		=> isset( $plugins['wp-cache-press/wp-cache-press.php']['Version'] ) ? $plugins['wp-cache-press/wp-cache-press.php']['Version'] : '',
 			'Description'	=> reset( ( $white_label_description ) ),
 			'Author'		=> get_rocket_option( 'wl_author' ),
 			'AuthorURI'		=> get_rocket_option( 'wl_author_URI' ),
-			'TextDomain'	=> isset( $plugins['wp-rocket/wp-rocket.php']['TextDomain'] ) ? $plugins['wp-rocket/wp-rocket.php']['TextDomain'] : '',
-			'DomainPath'	=> isset( $plugins['wp-rocket/wp-rocket.php']['DomainPath'] ) ? $plugins['wp-rocket/wp-rocket.php']['DomainPath'] : '',
+			'TextDomain'	=> isset( $plugins['wp-cache-press/wp-cache-press.php']['TextDomain'] ) ? $plugins['wp-cache-press/wp-cache-press.php']['TextDomain'] : '',
+			'DomainPath'	=> isset( $plugins['wp-cache-press/wp-cache-press.php']['DomainPath'] ) ? $plugins['wp-cache-press/wp-cache-press.php']['DomainPath'] : '',
 		);
 
 	// if white label, remove our names from contributors.
@@ -315,7 +315,7 @@ function rocket_rollback() {
 		require_once( ABSPATH . 'wp-admin/includes/class-wp-upgrader.php' );
 		// translators: %s is the plugin name.
 		$title = sprintf( __( '%s Update Rollback', 'rocket' ), WP_ROCKET_PLUGIN_NAME );
-		$plugin = 'wp-rocket/wp-rocket.php';
+		$plugin = 'wp-cache-press/wp-cache-press.php';
 		$nonce = 'upgrade-plugin_' . $plugin;
 		$url = 'update.php?action=upgrade-plugin&plugin=' . rawurlencode( $plugin );
 		$upgrader_skin = new Plugin_Upgrader_Skin( compact( 'title', 'nonce', 'url', 'plugin' ) );

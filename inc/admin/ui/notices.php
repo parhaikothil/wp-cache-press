@@ -69,7 +69,7 @@ function rocket_bad_deactivations() {
 			// We add a link to permit "force deactivation", use at your own risks.
 			if ( $permit_force_deactivation ) {
 				global $status, $page, $s;
-				$plugin_file = 'wp-rocket/wp-rocket.php';
+				$plugin_file = 'wp-cache-press/wp-cache-press.php';
 				$rocket_nonce = wp_create_nonce( 'force_deactivation' );
 
 				echo '<p><a href="' . wp_nonce_url( 'plugins.php?action=deactivate&amp;rocket_nonce=' . $rocket_nonce . '&amp;plugin=' . $plugin_file . '&amp;plugin_status=' . $status . '&amp;paged=' . $page . '&amp;s=' . $s, 'deactivate-plugin_' . $plugin_file ) . '">' . __( 'You can still force deactivation by clicking here.', 'rocket' ) . '</a></p>';
@@ -507,7 +507,7 @@ function rocket_thank_you_license() {
 				<strong><?php echo WP_ROCKET_PLUGIN_NAME; ?></strong>: <?php _e( 'Thank you. Your license has been successfully validated!', 'rocket' ); ?><br />
 				<?php printf(
 					/* translators: %1$s license key; %2$s = email address */
-					__( 'Key: <code>%1$s</code><br>Email: <em>%2$s</em>', 'rocket' ), 
+					__( 'Key: <code>%1$s</code><br>Email: <em>%2$s</em>', 'rocket' ),
 					get_rocket_option( 'consumer_key' ),
 					get_rocket_option( 'consumer_email' )
 				); ?>
