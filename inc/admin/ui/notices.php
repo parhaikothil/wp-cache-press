@@ -533,7 +533,7 @@ function rocket_imagify_notice() {
 
 	$boxes = get_user_meta( $GLOBALS['current_user']->ID, 'rocket_boxes', true );
 
-	if ( defined( 'IMAGIFY_VERSION' ) || in_array( __FUNCTION__, (array) $boxes, true ) || 1 === get_option( 'wp_rocket_dismiss_imagify_notice' ) || rocket_is_white_label() || ! current_user_can( 'manage_options' ) ) {
+	if ( defined( 'IMAGIFY_VERSION' ) || in_array( __FUNCTION__, (array) $boxes, true ) || 1 === get_option( 'wp_rocket_dismiss_imagify_notice' ) || ! current_user_can( 'manage_options' ) ) {
 		return;
 	}
 
@@ -633,14 +633,12 @@ add_action( 'admin_notices', 'rocket_cloudflare_purge_result' );
 function rocket_cloudflare_update_settings() {
 	global $current_user;
 	$screen              = get_current_screen();
-	$rocket_wl_name      = get_rocket_option( 'wl_plugin_name', null );
-	$wp_rocket_screen_id = isset( $rocket_wl_name ) ?  'settings_page_' . sanitize_key( $rocket_wl_name ) : 'settings_page_wprocket';
 	/** This filter is documented in inc/admin-bar.php */
 	if ( ! current_user_can( apply_filters( 'rocket_capacity', 'manage_options' ) ) ) {
 		return;
 	}
 
-	if ( $screen->id !== $wp_rocket_screen_id ) {
+	if ( $screen->id !== 'settings_page_wprocket' ) {
 		return;
 	}
 

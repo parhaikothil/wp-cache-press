@@ -21,13 +21,7 @@ add_filter( 'option_page_capability_wp_rocket', 'rocket_correct_capability_for_o
  * @since 1.0
  */
 function rocket_admin_menu() {
-	// do not use WP_ROCKET_PLUGIN_NAME here because if the WL has just been activated, the constant is not correct yet.
-	$wl_plugin_name = get_rocket_option( 'wl_plugin_name', WP_ROCKET_PLUGIN_NAME );
-
-	// same with WP_ROCKET_PLUGIN_SLUG.
-	$wl_plugin_slug = sanitize_key( $wl_plugin_name );
-
-	add_options_page( $wl_plugin_name, $wl_plugin_name, apply_filters( 'rocket_capacity', 'manage_options' ), $wl_plugin_slug, 'rocket_display_options' );
+	add_options_page( WP_ROCKET_PLUGIN_NAME, WP_ROCKET_PLUGIN_NAME, apply_filters( 'rocket_capacity', 'manage_options' ), WP_ROCKET_PLUGIN_SLUG, 'rocket_display_options' );
 }
 add_action( 'admin_menu', 'rocket_admin_menu' );
 
@@ -529,7 +523,6 @@ function rocket_display_options() {
 		'cloudflare',
 		'cdn',
 		'varnish',
-		'white-label',
 		'tools',
 	);
 
@@ -581,9 +574,6 @@ function rocket_display_options() {
 				if ( apply_filters( 'rocket_display_varnish_options_tab', true ) ) { ?>
 				<a href="#tab_varnish" class="nav-tab">Varnish</a>
 				<?php } ?>
-				<?php if ( defined( 'WP_RWL' ) ) { ?>
-					<a href="#tab_whitelabel" class="nav-tab"><?php _e( 'White Label', 'rocket' ); ?></a>
-				<?php } ?>
 				<a href="#tab_tools" class="nav-tab"><?php _e( 'Tools', 'rocket' ); ?></a>
 			<?php } else { ?>
 				<a href="#tab_apikey" class="nav-tab"><?php _e( 'License', 'rocket' ); ?></a>
@@ -606,8 +596,6 @@ function rocket_display_options() {
 				if ( apply_filters( 'rocket_display_varnish_options_tab', true ) ) { ?>
 					<div class="rkt-tab" id="tab_varnish"><?php do_settings_sections( 'rocket_varnish' ); ?></div>
 				<?php } ?>
-				<?php $class_hidden = ! defined( 'WP_RWL' ) ? ' hidden' : ''; ?>
-				<div class="rkt-tab<?php echo $class_hidden; ?>" id="tab_whitelabel"><?php do_settings_sections( 'rocket_white_label' ); ?></div>
 				<div class="rkt-tab" id="tab_tools"><?php do_settings_sections( 'rocket_tools' ); ?></div>
 			<?php } else { ?>
 				<div class="rkt-tab" id="tab_apikey"><?php do_settings_sections( 'rocket_apikey' ); ?></div>
@@ -895,16 +883,6 @@ function rocket_settings_callback( $inputs ) {
 	$inputs['cloudflare_auto_settings'] = ( isset( $inputs['cloudflare_auto_settings'] ) && is_numeric( $inputs['cloudflare_auto_settings'] ) ) ? (int) $inputs['cloudflare_auto_settings'] : 0;
 
 	/*
-	 * Option : WL
-	 */
-	$inputs['wl_plugin_name'] = isset( $inputs['wl_plugin_name'] ) ? wp_strip_all_tags( $inputs['wl_plugin_name'] ) : get_rocket_option( 'wl_plugin_name' );
-	$inputs['wl_plugin_URI']  = isset( $inputs['wl_plugin_URI'] )  ? esc_url( $inputs['wl_plugin_URI'] )            : get_rocket_option( 'wl_plugin_URI' );
-	$inputs['wl_author']      = isset( $inputs['wl_author'] )      ? wp_strip_all_tags( $inputs['wl_author'] )      : get_rocket_option( 'wl_author' );
-	$inputs['wl_author_URI']  = isset( $inputs['wl_author_URI'] )  ? esc_url( $inputs['wl_author_URI'] )            : get_rocket_option( 'wl_author_URI' );
-	$inputs['wl_description'] = isset( $inputs['wl_description'] ) ? (array) $inputs['wl_description']               : get_rocket_option( 'wl_description' );
-	$inputs['wl_plugin_slug'] = sanitize_key( $inputs['wl_plugin_name'] );
-
-	/*
 	 * Option : CloudFlare
 	 */
 	if ( defined( 'WP_ROCKET_CF_API_KEY' ) ) {
@@ -949,9 +927,7 @@ function rocket_settings_callback( $inputs ) {
 		$inputs['cdn_reject_files'] = array();
 	}
 
-	$filename_prefix = rocket_is_white_label() ? sanitize_title( get_rocket_option( 'wl_plugin_name' ) ) : 'wp-rocket';
-
-	if ( isset( $_FILES['import'] ) && 0 !== $_FILES['import']['size'] && $settings = rocket_handle_settings_import( $_FILES['import'], $filename_prefix, $inputs ) ) {
+	if ( isset( $_FILES['import'] ) && 0 !== $_FILES['import']['size'] && $settings = rocket_handle_settings_import( $_FILES['import'], 'wp-rocket', $inputs ) ) {
 		$inputs = $settings;
 	}
 
@@ -978,7 +954,6 @@ function rocket_settings_callback( $inputs ) {
  *
  * @since 1.0
  *
- * When the White Label Plugin name has changed, redirect on the correct page slug name to avoid a "you dont have permission" false negative annoying page
  * When the settins menu is hidden, redirect on the main settings page to avoid the same thing
  * (Only when a form is sent from our options page )
  *
@@ -996,12 +971,6 @@ function rocket_after_save_options( $oldvalue, $value ) {
 	$removed = array(
 		'purge_cron_interval' => true,
 		'purge_cron_unit'     => true,
-		'wl_plugin_name'      => true,
-		'wl_plugin_URI'       => true,
-		'wl_author'           => true,
-		'wl_author_URI'       => true,
-		'wl_description'      => true,
-		'wl_plugin_slug'      => true,
 	);
 
 	// Create 2 arrays to compare.
@@ -1131,15 +1100,6 @@ function rocket_after_save_options( $oldvalue, $value ) {
 	// Set WP_CACHE constant in wp-config.php.
 	if ( ! defined( 'WP_CACHE' ) || ! WP_CACHE ) {
 		set_rocket_wp_cache_define( true );
-	}
-
-	// Redirect on the correct page slug name to avoid false negative error message.
-	if ( ! empty( $_POST ) && $oldvalue['wl_plugin_name'] !== $value['wl_plugin_name'] &&
-		isset( $_POST['option_page'], $_POST['action'] ) && 'wp_rocket' === $_POST['option_page'] && 'update' === $_POST['action'] ) {
-		add_settings_error( 'general', 'settings_updated', __( 'Settings saved.', 'rocket' ), 'updated' );
-		set_transient( 'settings_errors', get_settings_errors(), 30 );
-		wp_redirect( admin_url( 'options-general.php?page=' . sanitize_key( $value['wl_plugin_name'] ) . '&settings-updated=true' ) );
-		die();
 	}
 }
 add_action( 'update_option_' . WP_ROCKET_SLUG, 'rocket_after_save_options', 10, 2 );

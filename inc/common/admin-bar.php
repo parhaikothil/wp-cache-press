@@ -224,30 +224,29 @@ function rocket_admin_bar( $wp_admin_bar ) {
 		    }
 		}
 	}
-	if ( ! rocket_is_white_label() ) {
-		// Go to WP Rocket Documentation.
-		$wp_admin_bar->add_menu( array(
-			'parent' => 'wp-rocket',
-			'id'     => 'docs',
-			'title'  => __( 'Documentation', 'rocket' ),
-			'href'   => get_rocket_documentation_url(),
-		));
 
-		// Go to WP Rocket FAQ.
-		$wp_admin_bar->add_menu( array(
-			'parent' => 'wp-rocket',
-			'id'     => 'faq',
-			'title'  => __( 'FAQ', 'rocket' ),
-			'href'   => get_rocket_faq_url(),
-		));
+	// Go to WP Rocket Documentation.
+	$wp_admin_bar->add_menu( array(
+		'parent' => 'wp-rocket',
+		'id'     => 'docs',
+		'title'  => __( 'Documentation', 'rocket' ),
+		'href'   => get_rocket_documentation_url(),
+	));
 
-		// Go to WP Rocket Support.
-		$wp_admin_bar->add_menu( array(
-			'parent' => 'wp-rocket',
-			'id'     => 'support',
-			'title'  => __( 'Support', 'rocket' ),
-			'href'   => 'http://wp-rocket.me/support/',
-		));
-	}
+	// Go to WP Rocket FAQ.
+	$wp_admin_bar->add_menu( array(
+		'parent' => 'wp-rocket',
+		'id'     => 'faq',
+		'title'  => __( 'FAQ', 'rocket' ),
+		'href'   => get_rocket_faq_url(),
+	));
+
+	// Go to WP Rocket Support.
+	$wp_admin_bar->add_menu( array(
+		'parent' => 'wp-rocket',
+		'id'     => 'support',
+		'title'  => __( 'Support', 'rocket' ),
+		'href'   => 'http://wp-rocket.me/support/',
+	));
 }
 add_action( 'admin_bar_menu', 'rocket_admin_bar', PHP_INT_MAX );

@@ -44,8 +44,7 @@ function rocket_user_agent( $user_agent ) {
 		$consumer_email = (string) get_rocket_option( 'consumer_email' );
 	}
 
-	$bonus = ! rocket_is_white_label() ? '' : '*';
-	$new_ua = sprintf( '%s;WP-Rocket|%s%s|%s|%s|%s|;', $user_agent, WP_ROCKET_VERSION, $bonus, $consumer_key, $consumer_email, esc_url( home_url() ) );
+	$new_ua = sprintf( '%s;WP-Rocket|%s|%s|%s|%s|;', $user_agent, WP_ROCKET_VERSION, $consumer_key, $consumer_email, esc_url( home_url() ) );
 
 	return $new_ua;
 }
@@ -113,55 +112,6 @@ function rocket_dismiss_box( $function ) {
 			'action'   => 'rocket_ignore',
 		)
 	);
-}
-
-/**
- * Is this version White Labeled?
- *
- * @since 2.1
- */
-function rocket_is_white_label() {
-	$options = '';
-	$names   = array(
-		'wl_plugin_name',
-		'wl_plugin_URI',
-		'wl_description',
-		'wl_author',
-		'wl_author_URI',
-	);
-
-	foreach ( $names as $value ) {
-		$option   = get_rocket_option( $value );
-		$options .= ! is_array( $option ) ? $option : reset( ( $option ) );
-	}
-
-	return 'a509cac94e0cd8238b250074fe802b90' !== md5( $options );
-}
-
-/**
- * Reset white label options
- *
- * @since 2.1
- *
- * @param bool $hack_post true if we need to modify the $_POST content, false otherwise.
- * @return void
- */
-function rocket_reset_white_label_values( $hack_post ) {
-	// White Label default values - !!! DO NOT TRANSLATE !!!
-	$options = get_option( WP_ROCKET_SLUG );
-	$options['wl_plugin_name']	= 'WP Rocket';
-	$options['wl_plugin_slug']	= 'wprocket';
-	$options['wl_plugin_URI']	= 'http://www.wp-rocket.me';
-	$options['wl_description']	= array( 'The best WordPress performance plugin.' );
-	$options['wl_author']		= 'WP Rocket';
-	$options['wl_author_URI']	= 'http://www.wp-rocket.me';
-
-	if ( $hack_post ) {
-		// hack $_POST to force refresh of files, sorry.
-		$_POST['page'] = 'wprocket';
-	}
-
-	update_option( WP_ROCKET_SLUG, $options );
 }
 
 /**

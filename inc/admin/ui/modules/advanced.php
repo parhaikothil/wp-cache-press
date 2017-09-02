@@ -1,35 +1,29 @@
 <?php
 defined( 'ABSPATH' ) || die( 'Cheatin&#8217; uh?' );
 
-// Are we white-labeled?
-$rwl = rocket_is_white_label();
-
 add_settings_section( 'rocket_display_imp_options', __( 'Advanced options', 'rocket' ), '__return_false', 'rocket_advanced' );
 
 /**
  * Panel caption
  */
-if ( ! $rwl ) {
-
-	add_settings_field(
-		'rocket_advanced_options_panel',
-		false,
-		'rocket_field',
-		'rocket_advanced',
-		'rocket_display_imp_options',
+add_settings_field(
+	'rocket_advanced_options_panel',
+	false,
+	'rocket_field',
+	'rocket_advanced',
+	'rocket_display_imp_options',
+	array(
 		array(
-			array(
-				'type'         => 'helper_panel_description',
-				'name'         => 'advanced_options_panel_caption',
-				'description'  => sprintf(
-					'<span class="dashicons dashicons-admin-tools" aria-hidden="true"></span><strong>%1$s</strong>',
-					/* translators: line break recommended, but not mandatory; use URL of localised document if available in your language  */
-					__( 'These settings are for advanced cache management. Caching itself works automatically.<br>Read the <a href="http://docs.wp-rocket.me/article/78-how-often-is-the-cache-updated" target="_blank">documentation on automatic cache management</a> to better understand how caching works.', 'rocket' )
-				),
+			'type'         => 'helper_panel_description',
+			'name'         => 'advanced_options_panel_caption',
+			'description'  => sprintf(
+				'<span class="dashicons dashicons-admin-tools" aria-hidden="true"></span><strong>%1$s</strong>',
+				/* translators: line break recommended, but not mandatory; use URL of localised document if available in your language  */
+				__( 'These settings are for advanced cache management. Caching itself works automatically.<br>Read the <a href="http://docs.wp-rocket.me/article/78-how-often-is-the-cache-updated" target="_blank">documentation on automatic cache management</a> to better understand how caching works.', 'rocket' )
 			),
-		)
-	);
-}
+		),
+	)
+);
 
 /**
  * Never cache (URLs)
@@ -218,7 +212,7 @@ add_settings_field(
 		array(
 			'type'         => 'helper_description',
 			'name'         => 'query_strings',
-			'description'  => $rwl ? __( 'Cache for query strings enables you to force caching for specific GET parameters.', 'rocket' ) : __( '<a href="http://docs.wp-rocket.me/article/971-caching-query-strings" target="_blank">Cache for query strings</a> enables you to force caching for specific GET parameters.', 'rocket' ),
+			'description'  => __( 'Cache for query strings enables you to force caching for specific GET parameters.', 'rocket' ),
 		),
 	)
 );

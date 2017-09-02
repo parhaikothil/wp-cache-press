@@ -1,35 +1,29 @@
 <?php
 defined( 'ABSPATH' ) || die( 'Cheatin&#8217; uh?' );
 
-// Are we white-labeled?
-$rwl = rocket_is_white_label();
-
 add_settings_section( 'rocket_display_optimization_options', __( 'Files optimization', 'rocket' ), '__return_false', 'rocket_optimization' );
 
 /**
  * Panel caption
  */
-if ( ! $rwl ) {
-
-	add_settings_field(
-		'rocket_optimization_options_panel',
-		false,
-		'rocket_field',
-		'rocket_optimization',
-		'rocket_display_optimization_options',
+add_settings_field(
+	'rocket_optimization_options_panel',
+	false,
+	'rocket_field',
+	'rocket_optimization',
+	'rocket_display_optimization_options',
+	array(
 		array(
-			array(
-				'type'         => 'helper_panel_description',
-				'name'         => 'optimization_options_panel_caption',
-				'description'  => sprintf(
-					'<span class="dashicons dashicons-admin-tools" aria-hidden="true"></span><strong>%1$s</strong>',
-					/* translators: line-break recommended, but not mandatory; use URL of localised document if available in your language  */
-					__( 'Heads up! These options are not equally suitable for all WordPress setups.<br>If you notice any visual issues on your site, just turn off the last option(s) you had activated here. <br>Read the documentation on <a href="http://docs.wp-rocket.me/article/19-resolving-issues-with-minification" target="_blank">troubleshooting file optimization</a>.', 'rocket' )
-				),
+			'type'         => 'helper_panel_description',
+			'name'         => 'optimization_options_panel_caption',
+			'description'  => sprintf(
+				'<span class="dashicons dashicons-admin-tools" aria-hidden="true"></span><strong>%1$s</strong>',
+				/* translators: line-break recommended, but not mandatory; use URL of localised document if available in your language  */
+				__( 'Heads up! These options are not equally suitable for all WordPress setups.<br>If you notice any visual issues on your site, just turn off the last option(s) you had activated here. <br>Read the documentation on <a href="http://docs.wp-rocket.me/article/19-resolving-issues-with-minification" target="_blank">troubleshooting file optimization</a>.', 'rocket' )
 			),
-		)
-	);
-}
+		),
+	)
+);
 
 /**
  * Minification
@@ -58,7 +52,7 @@ if ( rocket_maybe_disable_minify_html() || rocket_maybe_disable_minify_css() || 
 	$disabled = rtrim( $disabled, ', ' );
 
 	$rocket_maybe_disable_minify['description'] = sprintf(
-		/* translators: %1$s = file types (CSS, JS, HTML); %2$s = “WP Rocket” or white-label plugin name */
+		/* translators: %1$s = file types (CSS, JS, HTML); %2$s = “WP Rocket” plugin name */
 		__( 'Minification (%1$s) is currently activated in <strong>Autoptimize</strong>. If you want to use %2$s’s minification, disable those options in Autoptimize.', 'rocket' ), $disabled, WP_ROCKET_PLUGIN_NAME );
 }
 
@@ -68,11 +62,7 @@ $rocket_minify_fields = array();
 $rocket_minify_fields[] = array(
 		'type'        => 'helper_warning',
 		'name'        => 'minify_warning',
-		'description' => sprintf(
-			/* translators: %s = docs link, or nothing if white-label is enabled */
-			__( 'Deactivate if you notice any visually broken items on your website.%s', 'rocket' ),
-			$rwl ? '' : ' ' . __( '<a href="http://docs.wp-rocket.me/article/19-resolving-issues-with-minification" target="_blank">Why?</a>', 'rocket' )
-		),
+		'description' => __( 'Deactivate if you notice any visually broken items on your website.', 'rocket' ),
 );
 
 /* Minify options */
@@ -134,11 +124,7 @@ if (
 	$rocket_concatenate_fields[] = array(
 			'type'        => 'helper_warning',
 			'name'        => 'minify_concatenate_warning',
-			'description' => sprintf(
-				/* translators: %s = docs link, or nothing if white-label is enabled */
-				__( 'Deactivate if you notice any visually broken items on your website.%s', 'rocket' ),
-				$rwl ? '' : ' ' . __( '<a href="http://docs.wp-rocket.me/article/19-resolving-issues-with-minification" target="_blank">Why?</a>', 'rocket' )
-			),
+			'description' => __( 'Deactivate if you notice any visually broken items on your website.', 'rocket' ),
 	);
 }
 
@@ -185,7 +171,7 @@ $rocket_concatenate_fields[] = array(
 $rocket_concatenate_fields[] = array(
 	'type'         => 'helper_description',
 	'name'         => 'rocket_minify_combine_all',
-	'description'  => $rwl ? __( 'Files get concatenated into small groups in order to ensure theme/plugin compatibility and better performance. Forcing concatenation into 1 file is not recommended, because browsers are faster downloading up to 6 smaller files in parallel than 1-2 large files.', 'rocket' ) : __( 'Files get concatenated into small groups in order to <a href="http://docs.wp-rocket.me/article/17-reducing-the-number-of-minified-files" target="_blank">ensure theme/plugin compatibility and better performance</a>. Forcing concatenation into 1 file is not recommended, because browsers are faster downloading up to 6 smaller files in parallel than 1-2 large files.', 'rocket' ),
+	'description'  => __( 'Files get concatenated into small groups in order to ensure theme/plugin compatibility and better performance. Forcing concatenation into 1 file is not recommended, because browsers are faster downloading up to 6 smaller files in parallel than 1-2 large files.', 'rocket' ),
 );
 
 add_settings_field(
@@ -300,11 +286,7 @@ $rocket_render_blocking = array();
 $rocket_render_blocking[] = array(
 	'type'        => 'helper_warning',
 	'name'		  => 'render_blocking_warning',
-	'description' => sprintf(
-		/* translators: %s = docs link, or nothing if white-label is enabled */
-		__( 'Deactivate if you notice any visually broken items on your website.%s', 'rocket' ),
-		$rwl ? '' : ' ' . __( '<a href="http://docs.wp-rocket.me/article/108-render-blocking-javascript-and-css-pagespeed" target="_blank">Why?</a>', 'rocket' )
-	),
+	'description' => __( 'Deactivate if you notice any visually broken items on your website.', 'rocket' ),
 );
 
 $rocket_render_blocking[] = array(
@@ -388,7 +370,7 @@ add_settings_field(
 /**
  * Deprecated options panel caption
  */
-if ( ! $rwl && ( get_rocket_option( 'minify_js_in_footer') || get_rocket_option( 'deferred_js' ) ) ) {
+if ( get_rocket_option( 'minify_js_in_footer') || get_rocket_option( 'deferred_js' ) ) {
 	add_settings_field(
 		'rocket_optimization_deprected_options',
 		false,
