@@ -55,17 +55,12 @@ function rocket_admin_print_styles() {
 add_action( 'admin_print_styles', 'rocket_admin_print_styles' );
 
 /**
- * Add CSS & JS files for the Imagify installation call to action
+ * Add CSS & JS files for the plugin information call to action
  *
  * @since 2.7
  */
 function rocket_enqueue_modal_plugin() {
-	wp_enqueue_style( 'plugin-install' );
-
-    wp_enqueue_script( 'plugin-install' );
-    wp_enqueue_script( 'updates' );
-    add_thickbox();
+	wp_enqueue_script( 'updates' );
+	add_thickbox();
 }
-add_action( 'admin_print_styles-media-new.php', 'rocket_enqueue_modal_plugin' );
-add_action( 'admin_print_styles-upload.php', 'rocket_enqueue_modal_plugin' );
 add_action( 'admin_print_styles-settings_page_' . WP_ROCKET_PLUGIN_SLUG, 'rocket_enqueue_modal_plugin' );
