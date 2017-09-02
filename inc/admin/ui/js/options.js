@@ -1,7 +1,4 @@
 jQuery( document ).ready( function($){
-	// Fancybox
-	$(".fancybox").fancybox({'type' : 'iframe'});
-
 	// Display warning message if lazyload options are checked
 	var $info = $('.fieldname-lazyload_common_issues'),
     	$inputs = $('input[id^="lazyload"]'),

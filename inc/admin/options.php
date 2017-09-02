@@ -479,23 +479,6 @@ function rocket_button( $args ) {
 }
 
 /**
- * Used to display videos buttons on settings form
- *
- * @since 2.2
- *
- * @param array $args An array of arguments to populate the video attributes.
- */
-function rocket_video( $args ) {
-	$desc = '<p class="description desc ' . sanitize_html_class( $args['name'] ) . '">' . $args['description'] . '</p>';
-?>
-	<fieldset class="fieldname-<?php echo $args['name']; ?> fieldtype-button">
-		<a href="<?php echo esc_url( $args['url'] ); ?>" class="button-secondary fancybox rocketicon rocketicon-video"><?php _e( 'Watch the video', 'rocket' ); ?></a>
-		<?php echo apply_filters( 'rocket_help', $desc, $args['name'], 'description' ); ?>
-	</fieldset>
-<?php
-}
-
-/**
  * Used to include a file in any tab
  *
  * @since 2.2
