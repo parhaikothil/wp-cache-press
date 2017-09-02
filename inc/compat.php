@@ -59,35 +59,6 @@ if ( ! function_exists( 'wp_unslash' ) ) {
 	}
 }
 
-// Copied from core for compatibility with WP < 4.6.
-// Removed the error triggering because it relies on another WP 4.6 function.
-if ( ! function_exists( 'apply_filters_deprecated' ) ) {
-	/**
-	 * Fires functions attached to a deprecated filter hook.
-	 *
-	 * When a filter hook is deprecated, the apply_filters() call is replaced with
-	 * apply_filters_deprecated(), which triggers a deprecation notice and then fires
-	 * the original filter hook.
-	 *
-	 * @since 4.6.0
-	 *
-	 * @see _deprecated_hook()
-	 *
-	 * @param string $tag         The name of the filter hook.
-	 * @param array  $args        Array of additional function arguments to be passed to apply_filters().
-	 * @param string $version     The version of WordPress that deprecated the hook.
-	 * @param string $replacement Optional. The hook that should have been used.
-	 * @param string $message     Optional. A message regarding the change.
-	 */
-	function apply_filters_deprecated( $tag, $args, $version, $replacement = false, $message = null ) {
-	    if ( ! has_filter( $tag ) ) {
-	    	return $args[0];
-	    }
-
-	    return apply_filters_ref_array( $tag, $args );
-	}
-}
-
 if ( ! function_exists( 'wp_parse_url' ) ) {
 	/**
 	 * Copied from core for compatibility with WP < 4.4
@@ -229,18 +200,18 @@ if ( ! function_exists( 'hash_equals' ) ) {
 	 */
     function hash_equals( $known_string, $user_string ) {
         $ret = 0;
-        
+
         if ( strlen( $known_string ) !== strlen( $user_string ) ) {
             $user_string = $known_string;
             $ret = 1;
         }
-        
+
         $res = $known_string ^ $user_string;
-        
+
         for ( $i = strlen( $res ) - 1; $i >= 0; --$i ) {
             $ret |= ord( $res[ $i ] );
         }
-        
+
         return ! $ret;
     }
 }

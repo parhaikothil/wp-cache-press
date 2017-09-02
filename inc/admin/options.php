@@ -531,7 +531,6 @@ function rocket_display_options() {
 		'varnish',
 		'white-label',
 		'tools',
-		'support',
 	);
 
 	foreach ( $modules as $module ) {
@@ -586,9 +585,6 @@ function rocket_display_options() {
 					<a href="#tab_whitelabel" class="nav-tab"><?php _e( 'White Label', 'rocket' ); ?></a>
 				<?php } ?>
 				<a href="#tab_tools" class="nav-tab"><?php _e( 'Tools', 'rocket' ); ?></a>
-				<?php if ( ! rocket_is_white_label() ) { ?>
-					<a href="#tab_support" class="nav-tab"><?php _e( 'Support', 'rocket' ); ?></a>
-				<?php } ?>
 			<?php } else { ?>
 				<a href="#tab_apikey" class="nav-tab"><?php _e( 'License', 'rocket' ); ?></a>
 			<?php }  ?>
@@ -613,9 +609,6 @@ function rocket_display_options() {
 				<?php $class_hidden = ! defined( 'WP_RWL' ) ? ' hidden' : ''; ?>
 				<div class="rkt-tab<?php echo $class_hidden; ?>" id="tab_whitelabel"><?php do_settings_sections( 'rocket_white_label' ); ?></div>
 				<div class="rkt-tab" id="tab_tools"><?php do_settings_sections( 'rocket_tools' ); ?></div>
-				<?php if ( ! rocket_is_white_label() ) { ?>
-					<div class="rkt-tab rkt-tab-txt" id="tab_support"><?php do_settings_sections( 'rocket_support' ); ?></div>
-				<?php } ?>
 			<?php } else { ?>
 				<div class="rkt-tab" id="tab_apikey"><?php do_settings_sections( 'rocket_apikey' ); ?></div>
 			<?php } ?>
@@ -954,21 +947,6 @@ function rocket_settings_callback( $inputs ) {
 		$inputs['cdn_reject_files'] = array_unique( $inputs['cdn_reject_files'] );
 	} else {
 		$inputs['cdn_reject_files'] = array();
-	}
-
-	/*
-	 * Option: Support
-	 */
-	$fake_options = array(
-		'support_summary',
-		'support_description',
-		'support_documentation_validation',
-	);
-
-	foreach ( $fake_options as $option ) {
-		if ( isset( $inputs[ $option ] ) ) {
-			unset( $inputs[ $option ] );
-		}
 	}
 
 	$filename_prefix = rocket_is_white_label() ? sanitize_title( get_rocket_option( 'wl_plugin_name' ) ) : 'wp-rocket';

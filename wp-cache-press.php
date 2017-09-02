@@ -25,7 +25,6 @@ define( 'WP_ROCKET_SLUG'                , 'wp_rocket_settings' );
 define( 'WP_ROCKET_WEB_MAIN'            , false );
 define( 'WP_ROCKET_WEB_API'             , WP_ROCKET_WEB_MAIN . 'api/wp-rocket/' );
 define( 'WP_ROCKET_WEB_VALID'           , WP_ROCKET_WEB_MAIN . 'valid_key.php' );
-define( 'WP_ROCKET_WEB_SUPPORT'         , WP_ROCKET_WEB_MAIN . 'forums/' );
 define( 'WP_ROCKET_BOT_URL'             , 'http://bot.wp-rocket.me/launch.php' );
 define( 'WP_ROCKET_FILE'                , __FILE__ );
 define( 'WP_ROCKET_PATH'                , realpath( plugin_dir_path( WP_ROCKET_FILE ) ) . '/' );
@@ -148,7 +147,6 @@ function rocket_init() {
 	}
 
 	if ( is_admin() ) {
-		require( WP_ROCKET_ADMIN_PATH . 'ajax.php' );
 		require( WP_ROCKET_ADMIN_PATH . 'upgrader.php' );
 		require( WP_ROCKET_ADMIN_PATH . 'class-repeater-field.php' );
 		require( WP_ROCKET_ADMIN_PATH . 'options.php' );

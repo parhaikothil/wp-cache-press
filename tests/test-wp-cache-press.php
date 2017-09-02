@@ -89,7 +89,6 @@ class Test_WP_Rocket extends WP_UnitTestCase {
 	public function test_requires() {
 		$this->assertFileExists( WP_ROCKET_CLASSES_PATH . 'background-processing.php' );
 
-		$this->assertFileExists( WP_ROCKET_ADMIN_PATH . 'ajax.php' );
 		$this->assertFileExists( WP_ROCKET_ADMIN_PATH . 'upgrader.php' );
 		$this->assertFileExists( WP_ROCKET_ADMIN_PATH . 'class-repeater-field.php' );
 		$this->assertFileExists( WP_ROCKET_ADMIN_PATH . 'options.php' );

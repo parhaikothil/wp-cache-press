@@ -208,22 +208,6 @@ function rocket_hidden_fields( $fields ) {
 }
 
 /**
- * Get name & version of all active plugins.
- *
- * @since 2.6
- */
-function rocket_get_active_plugins() {
-	$plugins 		= array();
-	$active_plugins = array_intersect_key( get_plugins(), array_flip( array_filter( array_keys( get_plugins() ), 'is_plugin_active' ) ) );
-
-	foreach ( $active_plugins as $plugin ) {
-		$plugins[] = $plugin['Name'] . ' ' . $plugin['Version'];
-	}
-
-	return $plugins;
-}
-
-/**
  * Sanitizes a string key like the sanitize_key() WordPress function without forcing lowercase.
  *
  * @since 2.7
