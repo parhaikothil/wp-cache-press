@@ -79,8 +79,8 @@ function rocket_field( $args ) {
 
 				$value 			= esc_attr( $value );
 				$number_options = 'number' === $args['type'] ? ' min="0" class="small-text"' : '';
-				$autocomplete 	= in_array( $args['name'], array( 'consumer_key', 'consumer_email' ), true ) ? ' autocomplete="off"' : '';
-				$disabled 		= ( 'consumer_key' === $args['name'] && defined( 'WP_ROCKET_KEY' ) ) || ( 'consumer_email' === $args['name'] && defined( 'WP_ROCKET_EMAIL' ) ) ? ' disabled="disabled"' : $readonly;
+				$autocomplete 	= in_array( $args['name'], array( 'consumer_key' ), true ) ? ' autocomplete="off"' : '';
+				$disabled 		= ( 'consumer_key' === $args['name'] ) ? ' disabled="disabled"' : $readonly;
 				?>
 
 					<legend class="screen-reader-text"><span><?php echo $args['label_screen']; ?></span></legend>
@@ -521,7 +521,6 @@ function rocket_display_options() {
 		rocket_hidden_fields(
 			array(
 				'consumer_key',
-				'consumer_email',
 				'secret_key',
 				'license',
 				'secret_cache_key',
@@ -908,7 +907,6 @@ function rocket_settings_callback( $inputs ) {
 
 	if ( isset( $checked ) && is_array( $checked ) ) {
 		$inputs['consumer_key']   = $checked['consumer_key'];
-		$inputs['consumer_email'] = $checked['consumer_email'];
 		$inputs['secret_key']     = $checked['secret_key'];
 	}
 
@@ -1291,7 +1289,6 @@ function rocket_handle_settings_import( $file_import, $filename_prefix, $inputs 
 
 	if ( is_array( $settings ) ) {
 		$settings['consumer_key']     = $inputs['consumer_key'];
-		$settings['consumer_email']   = $inputs['consumer_email'];
 		$settings['secret_key']       = $inputs['secret_key'];
 		$settings['secret_cache_key'] = $inputs['secret_cache_key'];
 		$settings['minify_css_key']	  = $inputs['minify_css_key'];

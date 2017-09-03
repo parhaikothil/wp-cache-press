@@ -149,9 +149,6 @@ class Test_WP_Rocket extends WP_UnitTestCase {
 			$this->assertFileExists( WP_ROCKET_FUNCTIONS_PATH . 'cloudflare.php' );
 		}
 
-		$file = str_replace( 'tests/test-', '', __FILE__ );
-		$this->assertFileExists( dirname( $file ) . '/licence-data.php' );
-
 		$this->assertFileExists( WP_ROCKET_3RD_PARTY_PATH . 'hosting/wpengine.php' );
 		$this->assertFileExists( WP_ROCKET_3RD_PARTY_PATH . 'hosting/flywheel.php' );
 		$this->assertFileExists( WP_ROCKET_3RD_PARTY_PATH . 'hosting/wp-serveur.php' );

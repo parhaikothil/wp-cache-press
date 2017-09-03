@@ -23,11 +23,6 @@ function get_rocket_option( $option, $default = false ) {
 		return $value;
 	}
 	$options = get_option( WP_ROCKET_SLUG );
-	if ( 'consumer_key' === $option && defined( 'WP_ROCKET_KEY' ) ) {
-		return WP_ROCKET_KEY;
-	} elseif ( 'consumer_email' === $option && defined( 'WP_ROCKET_EMAIL' ) ) {
-		return WP_ROCKET_EMAIL;
-	}
 
 	$value = isset( $options[ $option ] ) && '' !== $options[ $option ] ? $options[ $option ] : $default;
 
@@ -508,7 +503,7 @@ function get_rocket_exclude_defer_js() {
 
 	if ( get_rocket_option( 'defer_all_js', 0 ) && get_rocket_option( 'defer_all_js_safe', 0 ) ) {
 		$jquery = $wp_scripts->registered['jquery-core']->src;
-		
+
 		if ( get_rocket_option( 'remove_query_strings', 0 ) ) {
 			$jquery = site_url( $jquery . '?ver=' . $wp_scripts->registered['jquery-core']->ver );
 			$exclude_defer_js[] = rocket_clean_exclude_file( get_rocket_browser_cache_busting( $jquery, 'script_loader_src' ) );
@@ -565,7 +560,7 @@ function rocket_valid_key() {
 		return false;
 	}
 
-	return 8 === strlen( get_rocket_option( 'consumer_key' ) ) && hash_equals( $rocket_secret_key, hash( 'crc32', get_rocket_option( 'consumer_email' ) ) );
+	return 8 === strlen( get_rocket_option( 'consumer_key' ) ) && hash_equals( $rocket_secret_key, hash( 'crc32', get_rocket_option( 'consumer_key' ) ) );
 }
 
 /**
@@ -587,7 +582,6 @@ function rocket_check_key() {
 
 		if ( $json ) {
 			$rocket_options['consumer_key'] 	= $json->data->consumer_key;
-			$rocket_options['consumer_email']	= $json->data->consumer_email;
 
 			if ( $json->success ) {
 				$rocket_options['secret_key'] = $json->data->secret_key;

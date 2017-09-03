@@ -44,23 +44,3 @@ add_settings_field(
 		),
 	)
 );
-
-/**
- * Customer email address
- */
-add_settings_field(
-	'rocket_email',
-	__( 'Email address', 'rocket' ),
-	'rocket_field',
-	'rocket_apikey',
-	'rocket_display_apikey_options',
-	array(
-		array(
-			'type'         => 'email',
-			'label_for'    => 'consumer_email',
-			'label_screen' => __( 'Email address', 'rocket' ),
-			'name'         => 'consumer_email',
-			'placeholder'  => 'you@example.com',
-		),
-	)
-);

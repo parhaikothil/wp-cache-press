@@ -506,10 +506,9 @@ function rocket_thank_you_license() {
 			<p>
 				<strong><?php echo WP_ROCKET_PLUGIN_NAME; ?></strong>: <?php _e( 'Thank you. Your license has been successfully validated!', 'rocket' ); ?><br />
 				<?php printf(
-					/* translators: %1$s license key; %2$s = email address */
-					__( 'Key: <code>%1$s</code><br>Email: <em>%2$s</em>', 'rocket' ),
-					get_rocket_option( 'consumer_key' ),
-					get_rocket_option( 'consumer_email' )
+					/* translators: %1$s license key */
+					__( 'Key: <code>%1$s</code>', 'rocket' ),
+					get_rocket_option( 'consumer_key' )
 				); ?>
 			</p>
 		</div>
