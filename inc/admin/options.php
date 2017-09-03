@@ -92,12 +92,7 @@ function rocket_field( $args ) {
 			case 'cloudflare_api_key' :
 				$value = get_rocket_option( $args['name'] );
 
-				if ( 'cloudflare_api_key' === $args['name'] && defined( 'WP_ROCKET_CF_API_KEY' ) ) {
-					$value = WP_ROCKET_CF_API_KEY;
-				}
-
 			    	$value 			= esc_attr( $value );
-			    	$disabled 		= ( 'cloudflare_api_key' === $args['name'] && defined( 'WP_ROCKET_CF_API_KEY' ) ) ? ' disabled="disabled"' : $readonly;
 			    	$cf_valid_credentials = false;
 				if ( function_exists( 'rocket_cloudflare_valid_auth' ) ) {
 					$cf_valid_credentials = ( is_wp_error( rocket_cloudflare_valid_auth() ) ) ? false : true;
@@ -105,7 +100,7 @@ function rocket_field( $args ) {
 			    	?>
 			    		<legend class="screen-reader-text"><span><?php echo $args['label_screen']; ?></span></legend>
 			    		<label>
-			    		    <input<?php echo $disabled; ?> type="text" id="<?php echo $args['label_for']; ?>" name="wp_rocket_settings[<?php echo $args['name']; ?>]" value="<?php echo $value; ?>" <?php echo $placeholder; ?><?php echo $readonly; ?>/> <?php echo $label; ?>
+			    		    <input type="text" id="<?php echo $args['label_for']; ?>" name="wp_rocket_settings[<?php echo $args['name']; ?>]" value="<?php echo $value; ?>" <?php echo $placeholder; ?><?php echo $readonly; ?>/> <?php echo $label; ?>
 			    		    <?php if ( $cf_valid_credentials ) { ?>
 				    		    <span id="rocket-check-cloudflare-api-container" class="rocket-cloudflare-api-valid">
 								    <span class="dashicons dashicons-yes" aria-hidden="true"></span> <?php _e( 'Your Cloudflare credentials are valid.', 'rocket' ); ?>
@@ -864,13 +859,6 @@ function rocket_settings_callback( $inputs ) {
 
 	$inputs['cloudflare_devmode'] = ( isset( $inputs['cloudflare_devmode'] ) && is_numeric( $inputs['cloudflare_devmode'] ) ) ? (int) $inputs['cloudflare_devmode'] : 0;
 	$inputs['cloudflare_auto_settings'] = ( isset( $inputs['cloudflare_auto_settings'] ) && is_numeric( $inputs['cloudflare_auto_settings'] ) ) ? (int) $inputs['cloudflare_auto_settings'] : 0;
-
-	/*
-	 * Option : CloudFlare
-	 */
-	if ( defined( 'WP_ROCKET_CF_API_KEY' ) ) {
-		$inputs['cloudflare_api_key'] = get_rocket_option( 'cloudflare_api_key' );
-	}
 
 	/*
 	 * Option : CDN

@@ -28,39 +28,35 @@ add_settings_field(
 /**
  * CF API key
  */
-if ( ! defined( 'WP_ROCKET_CF_API_KEY_HIDDEN' ) || ! WP_ROCKET_CF_API_KEY_HIDDEN ) {
+$rocket_cloudflare_api_key = array();
 
-	$rocket_cloudflare_api_key = array();
-
-	$rocket_cloudflare_api_key[] = array(
-			'type'        => 'helper_help',
-			'description' => __( 'Enter the global API key of your Cloudflare account', 'rocket' ),
-		);
-
-	$rocket_cloudflare_api_key[] = array(
-		'type'         => 'cloudflare_api_key',
-		'label_for'    => 'cloudflare_api_key',
-		'label_screen' => __( 'Global API key', 'rocket' ),
+$rocket_cloudflare_api_key[] = array(
+		'type'        => 'helper_help',
+		'description' => __( 'Enter the global API key of your Cloudflare account', 'rocket' ),
 	);
 
-	$cf_api_key = get_rocket_option( 'cloudflare_api_key' );
-	if ( empty( $cf_api_key ) ) {
-		$rocket_cloudflare_api_key[] = array(
-			'type'         => 'helper_description',
-			'description'  => sprintf( __( '<a href="%s" target="_blank">Retrieve your API key</a>', 'rocket' ), 'https://support.cloudflare.com/hc/en-us/articles/200168246' ),
-		);
-	}
+$rocket_cloudflare_api_key[] = array(
+	'type'         => 'cloudflare_api_key',
+	'label_for'    => 'cloudflare_api_key',
+	'label_screen' => __( 'Global API key', 'rocket' ),
+);
 
-
-	add_settings_field(
-		'rocket_cloudflare_api_key',
-		_x( 'Global API key:', 'Cloudflare', 'rocket' ),
-		'rocket_field',
-		'rocket_cloudflare',
-		'rocket_display_cloudflare_options',
-		$rocket_cloudflare_api_key
+$cf_api_key = get_rocket_option( 'cloudflare_api_key' );
+if ( empty( $cf_api_key ) ) {
+	$rocket_cloudflare_api_key[] = array(
+		'type'         => 'helper_description',
+		'description'  => sprintf( __( '<a href="%s" target="_blank">Retrieve your API key</a>', 'rocket' ), 'https://support.cloudflare.com/hc/en-us/articles/200168246' ),
 	);
 }
+
+add_settings_field(
+	'rocket_cloudflare_api_key',
+	_x( 'Global API key:', 'Cloudflare', 'rocket' ),
+	'rocket_field',
+	'rocket_cloudflare',
+	'rocket_display_cloudflare_options',
+	$rocket_cloudflare_api_key
+);
 
 /**
  * CF domain
