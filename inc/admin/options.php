@@ -80,11 +80,10 @@ function rocket_field( $args ) {
 				$value 			= esc_attr( $value );
 				$number_options = 'number' === $args['type'] ? ' min="0" class="small-text"' : '';
 				$autocomplete 	= in_array( $args['name'], array( 'consumer_key' ), true ) ? ' autocomplete="off"' : '';
-				$disabled 		= ( 'consumer_key' === $args['name'] ) ? ' disabled="disabled"' : $readonly;
 				?>
 
 					<legend class="screen-reader-text"><span><?php echo $args['label_screen']; ?></span></legend>
-					<label><input<?php echo $autocomplete . $disabled; ?> type="<?php echo $args['type']; ?>"<?php echo $number_options; ?> id="<?php echo $args['label_for']; ?>" name="wp_rocket_settings[<?php echo $args['name']; ?>]" value="<?php echo $value; ?>" <?php echo $placeholder; ?><?php echo $readonly; ?>/> <?php echo $label; ?></label>
+					<label><input<?php echo $autocomplete; ?> type="<?php echo $args['type']; ?>"<?php echo $number_options; ?> id="<?php echo $args['label_for']; ?>" name="wp_rocket_settings[<?php echo $args['name']; ?>]" value="<?php echo $value; ?>" <?php echo $placeholder; ?><?php echo $readonly; ?>/> <?php echo $label; ?></label>
 
 				<?php
 			break;
