@@ -533,7 +533,6 @@ function rocket_display_options() {
 			)
 		);
 
-		submit_button();
 		?>
 		<h2 class="nav-tab-wrapper hide-if-no-js">
 			<?php if ( rocket_valid_key() ) { ?>
