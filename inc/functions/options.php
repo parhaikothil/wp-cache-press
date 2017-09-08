@@ -556,11 +556,11 @@ function get_rocket_exclude_async_css() {
  * @return bool true if everything is ok, false otherwise
  */
 function rocket_valid_key() {
-	if ( ! $rocket_secret_key = get_rocket_option( 'secret_key' ) ) {
+	if ( ! $rocket_secret_key = get_rocket_option( 'secret_key' ) || ! $rocket_consumer_key = get_rocket_option( 'consumer_key' ) ) {
 		return false;
 	}
 
-	return 8 === strlen( get_rocket_option( 'consumer_key' ) ) && hash_equals( $rocket_secret_key, hash( 'crc32', get_rocket_option( 'consumer_key' ) ) );
+	return 8 === strlen( $rocket_consumer_key ) && hash_equals( $rocket_consumer_key, hash( 'crc32', $rocket_secret_key ) );
 }
 
 /**
