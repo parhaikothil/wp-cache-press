@@ -45,7 +45,7 @@ class Rocket_Sitemap_Preload_Process extends WP_Background_Process {
 			'sslverify'  => apply_filters( 'https_local_ssl_verify', true ),
 		) );
 
-		$tmp = wp_remote_get( esc_url( $item ), $args );
+		$tmp = wp_remote_get( esc_url_raw( $item ), $args );
 		usleep( get_rocket_option( 'sitemap_preload_url_crawl', '500000' ) );
 
 		return false;

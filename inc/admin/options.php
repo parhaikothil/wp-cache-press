@@ -978,7 +978,7 @@ function rocket_after_save_options( $oldvalue, $value ) {
 	if ( ! empty( $_POST ) && ( $oldvalue['remove_query_strings'] !== $value['remove_query_strings'] ) ) {
 		rocket_clean_cache_busting();
 		wp_remote_get(
-			home_url(),
+			esc_url_raw( home_url() ),
 			array(
 				'timeout'    => 0.01,
 				'blocking'   => false,

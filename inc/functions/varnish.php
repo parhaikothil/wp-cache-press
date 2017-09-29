@@ -44,7 +44,7 @@ function rocket_varnish_http_purge( $url ) {
 	$purgeme = $scheme . '://' . $host . $path . $regex;
 
 	wp_remote_request(
-		$purgeme,
+		esc_url_raw( $purgeme ),
 		array(
 			'method'      => 'PURGE',
 			'blocking'    => false,

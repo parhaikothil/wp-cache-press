@@ -68,7 +68,7 @@ function run_rocket_bot( $spider = 'cache-preload', $lang = '' ) {
 		do_action( 'before_run_rocket_bot', $spider, $start_url );
 
 		wp_remote_get(
-			WP_ROCKET_URL_API_BOT . '?spider=' . $spider . '&start_url=' . $start_url,
+			esc_url_raw( WP_ROCKET_URL_API_BOT . '?spider=' . $spider . '&start_url=' . $start_url ),
 			array(
 				'timeout'   => 2,
 				'blocking'  => false,
@@ -200,7 +200,7 @@ function rocket_process_sitemap( $sitemap_url, $urls = array() ) {
 		'sslverify'  => apply_filters( 'https_local_ssl_verify', true ),
 	) );
 
-	$sitemap = wp_remote_get( esc_url( $sitemap_url ) );
+	$sitemap = wp_remote_get( esc_url_raw( $sitemap_url ) );
 
 	if ( is_wp_error( $sitemap ) ) {
 		return array();

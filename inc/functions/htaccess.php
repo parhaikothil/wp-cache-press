@@ -75,7 +75,7 @@ function rocket_htaccess_rules_test( $rules_name ) {
 		'cookies'     => $_COOKIE,
 	) );
 
-	$response = wp_remote_get( site_url( WP_ROCKET_URL . 'tests/' . $rules_name . '/index.html' ), $request_args );
+	$response = wp_remote_get( esc_url_raw( site_url( WP_ROCKET_URL . 'tests/' . $rules_name . '/index.html' ) ), $request_args );
 
 	if ( is_wp_error( $response ) ) {
 		return $response;

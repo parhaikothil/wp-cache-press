@@ -1019,7 +1019,7 @@ function get_rocket_footprint( $debug = true ) {
  * @return bool true if successful, false otherwise
  */
 function rocket_fetch_and_cache_busting( $src, $cache_busting_paths, $absolute_src_path, $current_filter ) {
-	$response = wp_remote_get( $src );
+	$response = wp_remote_get( esc_url_raw( $src ) );
 
 	if ( 200 !== wp_remote_retrieve_response_code( $response ) ) {
 		return false;

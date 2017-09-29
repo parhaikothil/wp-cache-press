@@ -354,7 +354,7 @@ function rocket_do_async_job( $body ) {
 		'sslverify' => apply_filters( 'https_local_ssl_verify', false ),
 	);
 
-	wp_remote_post( admin_url( 'admin-ajax.php' ), $args );
+	wp_remote_post( esc_url_raw( admin_url( 'admin-ajax.php' ) ), $args );
 }
 
 /**

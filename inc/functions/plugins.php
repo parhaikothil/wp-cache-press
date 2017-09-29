@@ -99,7 +99,7 @@ function rocket_clean_varnish_http_purge() {
 		}
 
 		wp_remote_request(
-			$purgeme,
+			esc_url_raw( $purgeme ),
 			array(
 				'method'   => 'PURGE',
 				'blocking' => false,
