@@ -2,12 +2,11 @@
 class Test_WP_Rocket extends WP_UnitTestCase {
 	public function test_constants() {
 		$this->assertSame( WP_ROCKET_VERSION, '2.10.9' );
-		$this->assertSame( WP_ROCKET_PRIVATE_KEY, false );
 		$this->assertSame( WP_ROCKET_SLUG, 'wp_rocket_settings' );
-		$this->assertSame( WP_ROCKET_WEB_MAIN, false );
-		$this->assertSame( WP_ROCKET_WEB_API, 'api/wp-rocket/' );
-		$this->assertSame( WP_ROCKET_WEB_VALID, 'valid_key.php' );
-		$this->assertSame( WP_ROCKET_BOT_URL, 'http://bot.wp-rocket.me/launch.php' );
+		$this->assertSame( WP_ROCKET_URL_MAIN, 'https://wpcache.press/' );
+		$this->assertSame( WP_ROCKET_URL_API, WP_ROCKET_URL_MAIN . 'api/v1/' );
+		$this->assertSame( WP_ROCKET_URL_API_KEY, WP_ROCKET_URL_API . 'get-api-key-info/' );
+		$this->assertSame( WP_ROCKET_URL_API_BOT, WP_ROCKET_URL_API . 'run-bot/' );
 
 		$file = str_replace( 'tests/test-', '', __FILE__ );
 		$this->assertSame( WP_ROCKET_FILE, $file );

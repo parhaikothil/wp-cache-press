@@ -556,7 +556,10 @@ function get_rocket_exclude_async_css() {
  * @return bool true if everything is ok, false otherwise
  */
 function rocket_valid_key() {
-	if ( ! $rocket_secret_key = get_rocket_option( 'secret_key' ) || ! $rocket_consumer_key = get_rocket_option( 'consumer_key' ) ) {
+	$rocket_secret_key = get_rocket_option( 'secret_key' );
+	$rocket_consumer_key = get_rocket_option( 'consumer_key' );
+
+	if ( ! $rocket_secret_key || empty( $rocket_secret_key ) || ! $rocket_consumer_key ) {
 		return false;
 	}
 
@@ -574,34 +577,52 @@ function rocket_check_key() {
 	// Recheck the license.
 	$return = rocket_valid_key();
 
-	if ( ! rocket_valid_key() ) {
-		$response = wp_remote_get( WP_ROCKET_WEB_VALID, array( 'timeout' => 30 ) );
+	if ( ! $return ) {
+		$response = wp_remote_get( WP_ROCKET_URL_API_KEY, array( 'timeout' => 30 ) );
 
 		$json = ! is_wp_error( $response ) ? json_decode( $response['body'] ) : false;
 		$rocket_options = array();
 
 		if ( $json ) {
-			$rocket_options['consumer_key'] 	= $json->data->consumer_key;
-
 			if ( $json->success ) {
-				$rocket_options['secret_key'] = $json->data->secret_key;
+				$rocket_options['consumer_key'] = sanitize_key( $json->data->consumer_key );
+				$rocket_options['secret_key'] = sanitize_key( $json->data->secret_key );
 
 				if ( ! get_rocket_option( 'license' ) ) {
 					$rocket_options['license'] = '1';
 				}
 			} else {
+				$rocket_options['consumer_key'] = '';
+				$rocket_options['secret_key'] = '';
+				$rocket_options['license'] = false;
 
 				$messages = array(
-					'BAD_LICENSE' => __( 'Your license is not valid.', 'rocket' ),
-					'BAD_NUMBER'  => __( 'You cannot add more websites. Upgrade your account.', 'rocket' ),
-					'BAD_SITE'	  => __( 'This website is not allowed.', 'rocket' ),
-					'BAD_KEY'	  => __( 'This license key is not accepted.', 'rocket' ),
+					'ERROR_INCORRECT_API_KEY'        => esc_html__( 'API key is incorrect.', 'rocket' ),
+					'ERROR_SITE_NOT_FOUND'           => esc_html__( 'This website is not allowed.', 'rocket' ),
 				);
-				$rocket_options['secret_key'] = '';
 
-				add_settings_error( 'general', 'settings_updated', $messages[ $json->data->reason ], 'error' );
+				$reason = rocket_sanitize_key( $json->data->reason );
+
+				if( ! isset( $messages[ $reason ] ) ) {
+					$messages[ $reason ] = sprintf( esc_html__( 'API request is incorrect (error code: %s).', 'rocket' ), $reason );
+				}
+
+				add_settings_error( 'wp_rocket', 'wp-rocket-api-error', $messages[ $reason ], 'error' );
+			}
+		}
+		else {
+			$secret_key = get_rocket_option( 'secret_key' );
+
+			if ( ! $secret_key || empty( $secret_key ) ) {
+				$rocket_options['consumer_key'] = '';
+				$rocket_options['secret_key'] = '';
+				$rocket_options['license'] = false;
 			}
 
+			add_settings_error( 'wp_rocket', 'wp-rocket-api-error', esc_html__( 'Connection to API server failed.', 'rocket' ), 'error' );
+		}
+
+		if( ! empty( $rocket_options ) ) {
 			set_transient( WP_ROCKET_SLUG, $rocket_options );
 			$return = (array) $rocket_options;
 		}

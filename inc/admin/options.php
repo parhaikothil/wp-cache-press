@@ -16,12 +16,22 @@ function rocket_correct_capability_for_options_page( $capability ) {
 add_filter( 'option_page_capability_wp_rocket', 'rocket_correct_capability_for_options_page' );
 
 /**
- * Add submenu in menu "Settings"
+ * Add top-level menu
  *
  * @since 1.0
  */
 function rocket_admin_menu() {
-	add_options_page( WP_ROCKET_PLUGIN_NAME, WP_ROCKET_PLUGIN_NAME, apply_filters( 'rocket_capacity', 'manage_options' ), WP_ROCKET_PLUGIN_SLUG, 'rocket_display_options' );
+	$menu_position = null;
+
+	if ( isset( $GLOBALS['menu'] ) ) {
+		foreach ( $GLOBALS['menu'] as $key => $val ) {
+			if ( isset( $val[2] ) && 'options-general.php' == $val[2] ) {
+				$menu_position = $key . '.000001';
+			}
+	  }
+	}
+
+	add_menu_page( WP_ROCKET_PLUGIN_NAME, WP_ROCKET_PLUGIN_NAME, apply_filters( 'rocket_capacity', 'manage_options' ), WP_ROCKET_PLUGIN_SLUG, 'rocket_display_options', 'dashicons-wpcachepress', $menu_position );
 }
 add_action( 'admin_menu', 'rocket_admin_menu' );
 
@@ -513,6 +523,9 @@ function rocket_display_options() {
 	<div class="wrap">
 
 	<<?php echo $heading_tag; ?>><?php echo WP_ROCKET_PLUGIN_NAME; ?> <small><sup><?php echo WP_ROCKET_VERSION; ?></sup></small></<?php echo $heading_tag; ?>>
+
+	<?php settings_errors( 'wp_rocket' ); ?>
+
 	<form action="options.php" id="rocket_options" method="post" enctype="multipart/form-data">
 		<?php
 		settings_fields( 'wp_rocket' );
@@ -551,7 +564,7 @@ function rocket_display_options() {
 				<?php } ?>
 				<a href="#tab_tools" class="nav-tab"><?php _e( 'Tools', 'rocket' ); ?></a>
 			<?php } else { ?>
-				<a href="#tab_apikey" class="nav-tab"><?php _e( 'License', 'rocket' ); ?></a>
+				<a href="#tab_apikey" class="nav-tab"><?php esc_html_e( 'API key', 'rocket' ); ?></a>
 			<?php }  ?>
 			<?php
 			do_action( 'rocket_tab', rocket_valid_key() );
@@ -906,12 +919,14 @@ function rocket_settings_callback( $inputs ) {
 	if ( isset( $checked ) && is_array( $checked ) ) {
 		$inputs['consumer_key']   = $checked['consumer_key'];
 		$inputs['secret_key']     = $checked['secret_key'];
+		$inputs['license']        = $checked['license'];
 	}
 
-	if ( rocket_valid_key() && ! empty( $inputs['secret_key'] ) && ! isset( $inputs['ignore'] ) ) {
-		unset( $inputs['ignore'] );
-		add_settings_error( 'general', 'settings_updated', __( 'Settings saved.', 'rocket' ), 'updated' );
+	if ( rocket_valid_key() && ! isset( $inputs['ignore'] ) ) {
+		add_settings_error( 'wp_rocket', 'wp-rocket-settings-save-success', esc_html__( 'Settings saved.', 'rocket' ), 'updated' );
 	}
+
+	unset( $inputs['ignore'] );
 
 	return apply_filters( 'rocket_inputs_sanitize', $inputs );
 }
@@ -1248,12 +1263,12 @@ function rocket_database_count_cleanup_items( $type ) {
  */
 function rocket_handle_settings_import( $file_import, $filename_prefix, $inputs ) {
 	if ( ! isset( $file_import ) ) {
-		add_settings_error( 'general', 'settings_update_error', __( 'Settings import failed: no file uploaded.', 'rocket' ), 'error' );
+		add_settings_error( 'wp_rocket', 'wp-rocket-settings-import-error', esc_html__( 'Settings import failed: no file uploaded.', 'rocket' ), 'error' );
 		return false;
 	}
 
 	if ( ! preg_match( '/' . $filename_prefix . '-settings-20\d{2}-\d{2}-\d{2}-[a-f0-9]{13}\.(?:txt|json)/', $file_import['name'] ) ) {
-		add_settings_error( 'general', 'settings_update_error', __( 'Settings import failed: incorrect filename.', 'rocket' ), 'error' );
+		add_settings_error( 'wp_rocket', 'wp-rocket-settings-import-error', esc_html__( 'Settings import failed: incorrect filename.', 'rocket' ), 'error' );
 		return false;
 	}
 
@@ -1262,7 +1277,7 @@ function rocket_handle_settings_import( $file_import, $filename_prefix, $inputs 
 	$file_data = wp_check_filetype_and_ext(  $file_import['tmp_name'], $file_import['name'] );
 
 	if ( 'text/plain' !== $file_data['type'] && 'application/json' !== $file_data['type'] ) {
-		add_settings_error( 'general', 'settings_update_error', __( 'Settings import failed: incorrect filetype.', 'rocket' ), 'error' );
+		add_settings_error( 'wp_rocket', 'wp-rocket-settings-import-error', esc_html__( 'Settings import failed: incorrect filetype.', 'rocket' ), 'error' );
 		return false;
 	}
 
@@ -1293,7 +1308,7 @@ function rocket_handle_settings_import( $file_import, $filename_prefix, $inputs 
 		$settings['minify_js_key']    = $inputs['minify_js_key'];
 		$settings['version']          = $inputs['version'];
 
-		add_settings_error( 'general', 'settings_updated', __( 'Settings imported and saved.', 'rocket' ), 'updated' );
+		add_settings_error( 'wp_rocket', 'wp-rocket-settings-import-success', esc_html__( 'Settings imported and saved.', 'rocket' ), 'updated' );
 
 		return $settings;
 	}

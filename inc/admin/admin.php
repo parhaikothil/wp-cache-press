@@ -1,5 +1,5 @@
 <?php
-defined( 'ABSPATH' ) ||	die( 'Cheatin&#8217; uh?' );
+defined( 'ABSPATH' ) || die( 'Cheatin&#8217; uh?' );
 
 /**
  * Link to the configuration page of the plugin, support & documentation
@@ -10,13 +10,13 @@ defined( 'ABSPATH' ) ||	die( 'Cheatin&#8217; uh?' );
  * @return array Updated array of links
  */
 function rocket_settings_action_links( $actions ) {
-	array_unshift( $actions, sprintf( '<a href="%s">%s</a>', 'http://wp-rocket.me/support/', __( 'Support', 'rocket' ) ) );
+	array_unshift( $actions, sprintf( '<a href="%s">%s</a>', esc_url( 'http://wp-rocket.me/support/' ), esc_html__( 'Support', 'rocket' ) ) );
 
-	array_unshift( $actions, sprintf( '<a href="%s">%s</a>', get_rocket_documentation_url(), __( 'Docs', 'rocket' ) ) );
+	array_unshift( $actions, sprintf( '<a href="%s">%s</a>', esc_url( get_rocket_documentation_url() ), esc_html__( 'Docs', 'rocket' ) ) );
 
-	array_unshift( $actions, sprintf( '<a href="%s">%s</a>', get_rocket_faq_url(), __( 'FAQ', 'rocket' ) ) );
+	array_unshift( $actions, sprintf( '<a href="%s">%s</a>', esc_url( get_rocket_faq_url() ), esc_html__( 'FAQ', 'rocket' ) ) );
 
-	array_unshift( $actions, sprintf( '<a href="%s">%s</a>', admin_url( 'options-general.php?page=' . WP_ROCKET_PLUGIN_SLUG ), __( 'Settings' ) ) );
+	array_unshift( $actions, sprintf( '<a href="%s">%s</a>', esc_url( admin_url( 'admin.php?page=' . WP_ROCKET_PLUGIN_SLUG ) ), esc_html__( 'Settings', 'rocket' ) ) );
 
 	return $actions;
 }

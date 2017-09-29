@@ -12,8 +12,11 @@ function rocket_need_api_key() {
 		<p><strong><?php echo WP_ROCKET_PLUGIN_NAME; ?></strong> : <?php
 
 		printf(
-			__( '<a href="%s">Enter your API key here</a> to fully activate this plugin and give the performance of your website a boost.', 'rocket' ),
-			admin_url( 'options-general.php?page=' . WP_ROCKET_PLUGIN_SLUG )
+			wp_kses(
+				__( 'Get ready to speed up your website! But at first, please <a href="%s">enter your API key</a>.', 'rocket' ),
+				array( 'a' => array( 'href' => array() ) )
+			),
+			esc_url( admin_url( 'admin.php?page=' . WP_ROCKET_PLUGIN_SLUG ) )
 		);
 
 		?></p>
@@ -126,7 +129,7 @@ function create_rocket_uniqid() {
  * @return array An array of requested arguments
  */
 function rocket_add_own_ua( $r, $url ) {
-	if ( strpos( $url, 'wp-rocket.me' ) !== false ) {
+	if ( strpos( $url, rocket_parse_url( WP_ROCKET_URL_MAIN, PHP_URL_HOST ) ) !== false ) {
 		$r['user-agent'] = rocket_user_agent( $r['user-agent'] );
 	}
 	return $r;

@@ -504,12 +504,7 @@ function rocket_thank_you_license() {
 	?>
 		<div class="updated">
 			<p>
-				<strong><?php echo WP_ROCKET_PLUGIN_NAME; ?></strong>: <?php _e( 'Thank you. Your license has been successfully validated!', 'rocket' ); ?><br />
-				<?php printf(
-					/* translators: %1$s license key */
-					__( 'Key: <code>%1$s</code>', 'rocket' ),
-					get_rocket_option( 'consumer_key' )
-				); ?>
+				<strong><?php echo WP_ROCKET_PLUGIN_NAME; ?></strong>: <?php esc_html_e( 'Your API key has been successfully accepted.', 'rocket' ); ?>
 			</p>
 		</div>
 	<?php
@@ -563,7 +558,7 @@ function rocket_cloudflare_update_settings() {
 		return;
 	}
 
-	if ( $screen->id !== 'settings_page_wprocket' ) {
+	if ( $screen->id !== 'toplevel_page_wprocket' ) {
 		return;
 	}
 

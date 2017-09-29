@@ -20,12 +20,11 @@ defined( 'ABSPATH' ) || die( 'Cheatin&#8217; uh?' );
 
 // Rocket defines.
 define( 'WP_ROCKET_VERSION'             , '2.10.9' );
-define( 'WP_ROCKET_PRIVATE_KEY'         , false );
 define( 'WP_ROCKET_SLUG'                , 'wp_rocket_settings' );
-define( 'WP_ROCKET_WEB_MAIN'            , false );
-define( 'WP_ROCKET_WEB_API'             , WP_ROCKET_WEB_MAIN . 'api/wp-rocket/' );
-define( 'WP_ROCKET_WEB_VALID'           , WP_ROCKET_WEB_MAIN . 'valid_key.php' );
-define( 'WP_ROCKET_BOT_URL'             , 'http://bot.wp-rocket.me/launch.php' );
+define( 'WP_ROCKET_URL_MAIN'            , 'https://wpcache.press/' );
+define( 'WP_ROCKET_URL_API'             , WP_ROCKET_URL_MAIN . 'api/v1/' );
+define( 'WP_ROCKET_URL_API_KEY'         , WP_ROCKET_URL_API . 'get-api-key-info/' );
+define( 'WP_ROCKET_URL_API_BOT'         , WP_ROCKET_URL_API . 'run-bot/' );
 define( 'WP_ROCKET_FILE'                , __FILE__ );
 define( 'WP_ROCKET_PATH'                , realpath( plugin_dir_path( WP_ROCKET_FILE ) ) . '/' );
 define( 'WP_ROCKET_INC_PATH'            , realpath( WP_ROCKET_PATH . 'inc/' ) . '/' );
@@ -229,16 +228,6 @@ function rocket_deactivation() {
 		// Delete content of advanced-cache.php.
 		rocket_put_content( WP_CONTENT_DIR . '/advanced-cache.php', '' );
 	}
-
-	// Update customer key & licence.
-	wp_remote_get(
-		WP_ROCKET_WEB_API . 'pause-licence.php', array(
-			'blocking' => false,
-		)
-	);
-
-	delete_transient( 'rocket_check_licence_30' );
-	delete_transient( 'rocket_check_licence_1' );
 }
 register_deactivation_hook( __FILE__, 'rocket_deactivation' );
 
@@ -283,12 +272,5 @@ function rocket_activation() {
 
 	// Create advanced-cache.php file.
 	rocket_generate_advanced_cache_file();
-
-	// Update customer key & licence.
-	wp_remote_get(
-		WP_ROCKET_WEB_API . 'activate-licence.php', array(
-			'blocking' => false,
-		)
-	);
 }
 register_activation_hook( __FILE__, 'rocket_activation' );

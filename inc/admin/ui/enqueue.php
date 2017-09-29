@@ -32,7 +32,7 @@ function rocket_add_admin_css_js() {
 	wp_localize_script( 'options-wp-rocket', 'sawpr', $translation_array );
 	wp_enqueue_style( 'sweet-alert-wp-rocket', WP_ROCKET_ADMIN_UI_CSS_URL . 'sweetalert2.min.css', array( 'options-wp-rocket' ), WP_ROCKET_VERSION );
 }
-add_action( 'admin_print_styles-settings_page_' . WP_ROCKET_PLUGIN_SLUG, 'rocket_add_admin_css_js' );
+add_action( 'admin_print_styles-toplevel_page_' . WP_ROCKET_PLUGIN_SLUG, 'rocket_add_admin_css_js' );
 
 /**
  * Add the CSS and JS files needed by WP Rocket everywhere on admin pages
@@ -63,4 +63,4 @@ function rocket_enqueue_modal_plugin() {
 	wp_enqueue_script( 'updates' );
 	add_thickbox();
 }
-add_action( 'admin_print_styles-settings_page_' . WP_ROCKET_PLUGIN_SLUG, 'rocket_enqueue_modal_plugin' );
+add_action( 'admin_print_styles-toplevel_page_' . WP_ROCKET_PLUGIN_SLUG, 'rocket_enqueue_modal_plugin' );

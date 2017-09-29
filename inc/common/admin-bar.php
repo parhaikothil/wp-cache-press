@@ -23,15 +23,15 @@ function rocket_admin_bar( $wp_admin_bar ) {
 	$wp_admin_bar->add_menu( array(
 	    'id'    => 'wp-rocket',
 	    'title' => WP_ROCKET_PLUGIN_NAME,
-	    'href'  => admin_url( 'options-general.php?page=' . WP_ROCKET_PLUGIN_SLUG ),
+	    'href'  => esc_url( admin_url( 'admin.php?page=' . WP_ROCKET_PLUGIN_SLUG ) ),
 	));
 
 	// Settings.
 	$wp_admin_bar->add_menu(array(
 		'parent' => 'wp-rocket',
 		'id' 	 => 'rocket-settings',
-		'title'  => __( 'Settings', 'rocket' ),
-	    'href'   => admin_url( 'options-general.php?page=' . WP_ROCKET_PLUGIN_SLUG ),
+		'title'  => esc_html__( 'Settings', 'rocket' ),
+		'href'   => esc_url( admin_url( 'admin.php?page=' . WP_ROCKET_PLUGIN_SLUG ) ),
 	));
 
 	if ( rocket_valid_key() ) {
