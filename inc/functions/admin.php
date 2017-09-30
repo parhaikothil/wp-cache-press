@@ -33,14 +33,27 @@ function rocket_need_api_key() {
  * @return string WP Rocket user agent
  */
 function rocket_user_agent( $user_agent ) {
+	global $wpdb;
+
 	$consumer_key = '';
 	if ( isset( $_POST[ WP_ROCKET_SLUG ]['consumer_key'] ) ) {
-		$consumer_key = $_POST[ WP_ROCKET_SLUG ]['consumer_key'];
+		$consumer_key = sanitize_key( $_POST[ WP_ROCKET_SLUG ]['consumer_key'] );
 	} elseif ( '' !== (string) get_rocket_option( 'consumer_key' ) ) {
 		$consumer_key = (string) get_rocket_option( 'consumer_key' );
 	}
 
-	$new_ua = sprintf( '%s;WP-Rocket|%s|%s|%s|;', $user_agent, WP_ROCKET_VERSION, $consumer_key, esc_url( home_url() ) );
+	$ua_info = implode( '|', array(
+		WP_ROCKET_PLUGIN_NAME,
+		WP_ROCKET_VERSION,
+		$consumer_key,
+		esc_url( home_url() ),
+		$GLOBALS['wp_version'],
+		phpversion(),
+		$wpdb->db_version(),
+		get_locale(),
+	) );
+
+	$new_ua = sprintf( '%s;%s;', $user_agent, $ua_info );
 
 	return $new_ua;
 }

@@ -19,6 +19,8 @@
 defined( 'ABSPATH' ) || die( 'Cheatin&#8217; uh?' );
 
 // Rocket defines.
+define( 'WP_ROCKET_PLUGIN_NAME',        'WP Rocket' );
+define( 'WP_ROCKET_PLUGIN_SLUG',        sanitize_key( WP_ROCKET_PLUGIN_NAME ) );
 define( 'WP_ROCKET_VERSION'             , '2.10.9' );
 define( 'WP_ROCKET_SLUG'                , 'wp_rocket_settings' );
 define( 'WP_ROCKET_URL_MAIN'            , 'https://wpcache.press/' );
@@ -92,10 +94,6 @@ function rocket_init() {
 
 	// Call defines, classes and functions.
 	require( WP_ROCKET_FUNCTIONS_PATH . 'options.php' );
-
-	// Last constants.
-	define( 'WP_ROCKET_PLUGIN_NAME', 'WP Rocket' );
-	define( 'WP_ROCKET_PLUGIN_SLUG', sanitize_key( WP_ROCKET_PLUGIN_NAME ) );
 
 	// Call defines,  classes and functions.
 	require( WP_ROCKET_CLASSES_PATH . 'background-processing.php' );
