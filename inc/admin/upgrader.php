@@ -28,7 +28,7 @@ function rocket_upgrader() {
 		$options = get_option( WP_ROCKET_SLUG ); // do not use get_rocket_option() here.
 		$options['version'] = WP_ROCKET_VERSION;
 
-		$keys = rocket_check_key();
+		$keys = rocket_check_key( 'force' );
 		if ( is_array( $keys ) ) {
 			$options = array_merge( $keys, $options );
 		}
@@ -38,6 +38,15 @@ function rocket_upgrader() {
 		// Empty OPCache to prevent issue where plugin is updated but still showing as old version in WP admin.
 		if ( function_exists( 'opcache_reset' ) ) {
 			@opcache_reset();
+		}
+	}
+	elseif ( empty( $_POST ) && rocket_valid_key() ) {
+		$keys = rocket_check_key( 'silent' );
+
+		if ( is_array( $keys ) ) {
+			$options = get_option( WP_ROCKET_SLUG );
+			$options = array_merge( $keys, $options );
+			update_option( WP_ROCKET_SLUG, $options );
 		}
 	}
 

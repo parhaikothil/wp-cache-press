@@ -573,12 +573,12 @@ function rocket_valid_key() {
  * @since 2.9.7 Stop to auto-check the validation each 1 & 30 days.
  * @since 2.2 The function do the live check and update the option.
  */
-function rocket_check_key() {
+function rocket_check_key( $check = false ) {
 	// Recheck the license.
 	$return = rocket_valid_key();
 
-	if ( ! $return ) {
-		$response = wp_remote_get( esc_url_raw( WP_ROCKET_URL_API_KEY ), array( 'timeout' => 30 ) );
+	if ( ! $return || 'force' == $check || ! get_transient( 'rocket_check_licence_1' ) ) {
+		$response = wp_remote_get( esc_url_raw( WP_ROCKET_URL_API_KEY ), array( 'timeout' => 15 ) );
 
 		$json = ! is_wp_error( $response ) ? json_decode( $response['body'] ) : false;
 		$rocket_options = array();
@@ -591,35 +591,42 @@ function rocket_check_key() {
 				if ( ! get_rocket_option( 'license' ) ) {
 					$rocket_options['license'] = '1';
 				}
+
+				set_transient( 'rocket_check_licence_1', true, DAY_IN_SECONDS );
 			} else {
 				$rocket_options['consumer_key'] = '';
 				$rocket_options['secret_key'] = '';
 				$rocket_options['license'] = false;
 
-				$messages = array(
-					'ERROR_INCORRECT_API_KEY'        => esc_html__( 'API key is incorrect.', 'rocket' ),
-					'ERROR_SITE_NOT_FOUND'           => esc_html__( 'This website is not allowed.', 'rocket' ),
-				);
+				if ( 'silent' != $check ) {
+					$messages = array(
+						'ERROR_INCORRECT_API_KEY'        => esc_html__( 'API key is incorrect.', 'rocket' ),
+						'ERROR_SITE_NOT_FOUND'           => esc_html__( 'This website is not allowed.', 'rocket' ),
+					);
 
-				$reason = rocket_sanitize_key( $json->data->reason );
+					$reason = rocket_sanitize_key( $json->data->reason );
 
-				if( ! isset( $messages[ $reason ] ) ) {
-					$messages[ $reason ] = sprintf( esc_html__( 'API request is incorrect (error code: %s).', 'rocket' ), $reason );
+					if( ! isset( $messages[ $reason ] ) ) {
+						$messages[ $reason ] = sprintf( esc_html__( 'API request is incorrect (error code: %s).', 'rocket' ), $reason );
+					}
+
+					add_settings_error( 'wp_rocket', 'wp-rocket-api-error', $messages[ $reason ], 'error' );
 				}
-
-				add_settings_error( 'wp_rocket', 'wp-rocket-api-error', $messages[ $reason ], 'error' );
 			}
 		}
 		else {
-			$secret_key = get_rocket_option( 'secret_key' );
-
-			if ( ! $secret_key || empty( $secret_key ) ) {
+			if ( $return ) {
+				set_transient( 'rocket_check_licence_1', true, HOUR_IN_SECONDS );
+			}
+			else {
 				$rocket_options['consumer_key'] = '';
 				$rocket_options['secret_key'] = '';
 				$rocket_options['license'] = false;
 			}
 
-			add_settings_error( 'wp_rocket', 'wp-rocket-api-error', esc_html__( 'Connection to API server failed.', 'rocket' ), 'error' );
+			if ( 'silent' != $check ) {
+				add_settings_error( 'wp_rocket', 'wp-rocket-api-error', esc_html__( 'Connection to API server failed.', 'rocket' ), 'error' );
+			}
 		}
 
 		if( ! empty( $rocket_options ) ) {

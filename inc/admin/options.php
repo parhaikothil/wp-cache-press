@@ -914,12 +914,10 @@ function rocket_settings_callback( $inputs ) {
 
 	if ( ! rocket_valid_key() ) {
 		$checked = rocket_check_key();
-	}
 
-	if ( isset( $checked ) && is_array( $checked ) ) {
-		$inputs['consumer_key']   = $checked['consumer_key'];
-		$inputs['secret_key']     = $checked['secret_key'];
-		$inputs['license']        = $checked['license'];
+		if ( is_array( $checked ) ) {
+			$inputs = array_merge( $checked, $inputs );
+		}
 	}
 
 	if ( rocket_valid_key() && ! isset( $inputs['ignore'] ) ) {

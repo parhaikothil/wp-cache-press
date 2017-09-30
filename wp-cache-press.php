@@ -226,6 +226,8 @@ function rocket_deactivation() {
 		// Delete content of advanced-cache.php.
 		rocket_put_content( WP_CONTENT_DIR . '/advanced-cache.php', '' );
 	}
+
+	delete_transient( 'rocket_check_licence_1' );
 }
 register_deactivation_hook( __FILE__, 'rocket_deactivation' );
 
