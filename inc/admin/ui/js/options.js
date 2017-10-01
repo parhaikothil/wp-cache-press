@@ -15,7 +15,7 @@ jQuery( document ).ready( function($){
 
 	check_lazy();
 
-	$inputs.on('change.wprocket', check_lazy);
+	$inputs.on('change.wpcachepress', check_lazy);
 
 	// Display warning message if minification options are checked
 	var $info_minify = $('.fieldname-minify_warning'),
@@ -33,7 +33,7 @@ jQuery( document ).ready( function($){
 
 	check_minify();
 
-	$inputs_minify.on('change.wprocket', check_minify);
+	$inputs_minify.on('change.wpcachepress', check_minify);
 
 	// Display warning message if purge interval is too low or too high
 	var $info_lifespan_less = $('.fieldname-purge_warning_less'),
@@ -56,8 +56,8 @@ jQuery( document ).ready( function($){
 
 	check_purge_cron();
 
-	$input_cron_interval.on('change.wprocket', check_purge_cron);
-	$input_cron_unit.on('change.wprocket', check_purge_cron);
+	$input_cron_interval.on('change.wpcachepress', check_purge_cron);
+	$input_cron_unit.on('change.wpcachepress', check_purge_cron);
 
 	// Display warning message if render blocking options are checked
 	var $info_render_blocking = $('.fieldname-render_blocking_warning '),
@@ -75,7 +75,7 @@ jQuery( document ).ready( function($){
 
 	check_minify();
 
-	$inputs_render_blocking.on('change.wprocket', check_minify);
+	$inputs_render_blocking.on('change.wpcachepress', check_minify);
 
 	// Deferred JS
 	function rocket_deferred_rename()
@@ -83,7 +83,7 @@ jQuery( document ).ready( function($){
 		$('#rkt-drop-deferred .rkt-module-drag').each( function(i){
 			var $item_t_input = $(this).find( 'input[type=text]' );
 			var $item_c_input = $(this).find( 'input[type=checkbox]' );
-			$($item_t_input).attr( 'name', 'wp_rocket_settings[deferred_js_files]['+i+']' );
+			$($item_t_input).attr( 'name', 'wpcachepress_settings[deferred_js_files]['+i+']' );
 		});
 	}
 
@@ -140,7 +140,7 @@ jQuery( document ).ready( function($){
 	function rocket_minify_js_rename() {
 		$('#rkt-drop-minify_js_in_footer .rkt-module-drag').each( function(i){
 			var $item_t_input = $(this).find( 'input[type=text]' );
-			$($item_t_input).attr( 'name', 'wp_rocket_settings[minify_js_in_footer]['+i+']' );
+			$($item_t_input).attr( 'name', 'wpcachepress_settings[minify_js_in_footer]['+i+']' );
 		});
 	}
 

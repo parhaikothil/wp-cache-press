@@ -497,10 +497,10 @@ add_action( 'admin_notices', 'rocket_warning_busting_cache_dir_permissions' );
  */
 function rocket_thank_you_license() {
 	if ( '1' === get_rocket_option( 'license' ) ) {
-		$options = get_option( WP_ROCKET_SLUG );
+		$options = get_option( WP_ROCKET_SETTINGS_SLUG );
 		$options['license'] = time();
 		$options['ignore'] = true;
-		update_option( WP_ROCKET_SLUG, $options );
+		update_option( WP_ROCKET_SETTINGS_SLUG, $options );
 	?>
 		<div class="updated">
 			<p>
@@ -558,7 +558,7 @@ function rocket_cloudflare_update_settings() {
 		return;
 	}
 
-	if ( $screen->id !== 'toplevel_page_wprocket' ) {
+	if ( $screen->id !== 'toplevel_page_' . WP_ROCKET_PLUGIN_SLUG ) {
 		return;
 	}
 

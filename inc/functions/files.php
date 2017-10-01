@@ -68,7 +68,7 @@ function rocket_generate_advanced_cache_file() {
  * @return array Names of all config files & The content that will be printed
  */
 function get_rocket_config_file() {
-	$options = get_option( WP_ROCKET_SLUG );
+	$options = get_option( WP_ROCKET_SETTINGS_SLUG );
 
 	if ( ! $options ) {
 		return;

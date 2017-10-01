@@ -140,7 +140,7 @@ class WP_Rocket_Repeater_Field {
 
 			?>
 
-			<input style="width: 32em" type="text" <?php echo $this->placeholder; ?> class="<?php echo $this->option; ?> regular-text" name="wp_rocket_settings[<?php echo $this->option; ?>][<?php echo $key; ?>]" value="<?php echo $value; ?>" />
+			<input style="width: 32em" type="text" <?php echo $this->placeholder; ?> class="<?php echo $this->option; ?> regular-text" name="<?php echo WP_ROCKET_SETTINGS_SLUG; ?>[<?php echo $this->option; ?>][<?php echo $key; ?>]" value="<?php echo $value; ?>" />
 
 			<?php if ( $remove_button ) { ?>
 				<span class="dashicons dashicons-no rkt-module-remove hide-if-no-js "></span>

@@ -438,11 +438,11 @@ function do_admin_post_rocket_purge_cache() {
 				rocket_clean_cache_busting();
 
 				// Generate a new random key for minify cache file.
-				$options = get_option( WP_ROCKET_SLUG );
+				$options = get_option( WP_ROCKET_SETTINGS_SLUG );
 				$options['minify_css_key'] = create_rocket_uniqid();
 				$options['minify_js_key'] = create_rocket_uniqid();
-				remove_all_filters( 'update_option_' . WP_ROCKET_SLUG );
-				update_option( WP_ROCKET_SLUG, $options );
+				remove_all_filters( 'update_option_' . WP_ROCKET_SETTINGS_SLUG );
+				update_option( WP_ROCKET_SETTINGS_SLUG, $options );
 
 				rocket_dismiss_box( 'rocket_warning_plugin_modification' );
 				break;

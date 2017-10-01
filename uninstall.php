@@ -2,12 +2,12 @@
 defined( 'WP_UNINSTALL_PLUGIN' ) || die( 'Cheatin&#8217; uh?' );
 
 // Delete all transients.
-delete_transient( 'wp_rocket_settings' );
+delete_transient( 'wpcachepress_settings' );
 delete_transient( 'rocket_check_licence_1' );
 delete_transient( 'rocket_cloudflare_ips' );
 
 // Delete WP Rocket options.
-delete_option( 'wp_rocket_settings' );
+delete_option( 'wpcachepress_settings' );
 
 // Delete Compatibility options.
 delete_option( 'rocket_jetpack_eu_cookie_widget' );

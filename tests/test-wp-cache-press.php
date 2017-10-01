@@ -2,7 +2,7 @@
 class Test_WP_Rocket extends WP_UnitTestCase {
 	public function test_constants() {
 		$this->assertSame( WP_ROCKET_VERSION, '2.10.9' );
-		$this->assertSame( WP_ROCKET_SLUG, 'wp_rocket_settings' );
+		$this->assertSame( WP_ROCKET_SETTINGS_SLUG, 'wpcachepress_settings' );
 		$this->assertSame( WP_ROCKET_URL_MAIN, 'https://wpcache.press/' );
 		$this->assertSame( WP_ROCKET_URL_API, WP_ROCKET_URL_MAIN . 'api/v1/' );
 		$this->assertSame( WP_ROCKET_URL_API_KEY, WP_ROCKET_URL_API . 'get-api-key-info/' );

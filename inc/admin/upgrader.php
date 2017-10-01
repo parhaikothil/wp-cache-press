@@ -25,7 +25,7 @@ function rocket_upgrader() {
 
 		rocket_renew_all_boxes( 0, array( 'rocket_warning_plugin_modification' ) );
 
-		$options = get_option( WP_ROCKET_SLUG ); // do not use get_rocket_option() here.
+		$options = get_option( WP_ROCKET_SETTINGS_SLUG ); // do not use get_rocket_option() here.
 		$options['version'] = WP_ROCKET_VERSION;
 
 		$keys = rocket_check_key( 'force' );
@@ -33,7 +33,7 @@ function rocket_upgrader() {
 			$options = array_merge( $keys, $options );
 		}
 
-		update_option( WP_ROCKET_SLUG, $options );
+		update_option( WP_ROCKET_SETTINGS_SLUG, $options );
 
 		// Empty OPCache to prevent issue where plugin is updated but still showing as old version in WP admin.
 		if ( function_exists( 'opcache_reset' ) ) {
@@ -44,15 +44,15 @@ function rocket_upgrader() {
 		$keys = rocket_check_key( 'silent' );
 
 		if ( is_array( $keys ) ) {
-			$options = get_option( WP_ROCKET_SLUG );
+			$options = get_option( WP_ROCKET_SETTINGS_SLUG );
 			$options = array_merge( $keys, $options );
-			update_option( WP_ROCKET_SLUG, $options );
+			update_option( WP_ROCKET_SETTINGS_SLUG, $options );
 		}
 	}
 
 	/** This filter is documented in inc/admin-bar.php */
 	if ( ! rocket_valid_key() && current_user_can( apply_filters( 'rocket_capacity', 'manage_options' ) ) &&
-		( ! isset( $_GET['page'] ) || 'wprocket' !== $_GET['page'] ) ) {
+		( ! isset( $_GET['page'] ) || WP_ROCKET_PLUGIN_SLUG !== $_GET['page'] ) ) {
 		add_action( 'admin_notices', 'rocket_need_api_key' );
 	}
 }
@@ -72,7 +72,7 @@ function rocket_first_install() {
 	$minify_js_key = create_rocket_uniqid();
 
 	// Create Option.
-	add_option( WP_ROCKET_SLUG,
+	add_option( WP_ROCKET_SETTINGS_SLUG,
 		/**
 		 * Filters the default rocket options array
 		 *
@@ -170,14 +170,14 @@ function rocket_new_upgrade( $wp_rocket_version, $actual_version ) {
 
 	if ( version_compare( $actual_version, '2.6', '<' ) ) {
 		// Activate Inline CSS & JS minification if HTML minification is activated.
-		$options = get_option( WP_ROCKET_SLUG );
+		$options = get_option( WP_ROCKET_SETTINGS_SLUG );
 
 		if ( ! empty( $options['minify_html'] ) ) {
 			$options['minify_html_inline_css'] = 1;
 			$options['minify_html_inline_js']  = 1;
 		}
 
-		update_option( WP_ROCKET_SLUG, $options );
+		update_option( WP_ROCKET_SETTINGS_SLUG, $options );
 
 		// Regenerate advanced-cache.php file.
 		rocket_generate_advanced_cache_file();
@@ -192,17 +192,17 @@ function rocket_new_upgrade( $wp_rocket_version, $actual_version ) {
 	}
 
 	if ( version_compare( $actual_version, '2.8', '<' ) ) {
-		$options                              = get_option( WP_ROCKET_SLUG );
+		$options                              = get_option( WP_ROCKET_SETTINGS_SLUG );
 		$options['manual_preload']            = 1;
 		$options['automatic_preload']         = 1;
 		$options['sitemap_preload_url_crawl'] = '500000';
 
-		update_option( WP_ROCKET_SLUG, $options );
+		update_option( WP_ROCKET_SETTINGS_SLUG, $options );
 	}
 
 	// Deactivate CloudFlare completely if PHP Version is lower than 5.4.
 	if ( version_compare( $actual_version, '2.8.16', '<' ) && phpversion() < '5.4' ) {
-		$options                                = get_option( WP_ROCKET_SLUG );
+		$options                                = get_option( WP_ROCKET_SETTINGS_SLUG );
 		$options['do_cloudflare']               = 0;
 		$options['cloudflare_email']            = '';
 		$options['cloudflare_api_key']          = '';
@@ -212,12 +212,12 @@ function rocket_new_upgrade( $wp_rocket_version, $actual_version ) {
 		$options['cloudflare_auto_settings']    = 0;
 		$options['cloudflare_old_settings']     = '';
 
-		update_option( WP_ROCKET_SLUG, $options );
+		update_option( WP_ROCKET_SETTINGS_SLUG, $options );
 	}
 
 	// Add a value to the new CF zone_id field if the CF domain is set.
 	if ( version_compare( $actual_version, '2.8.21', '<' ) && phpversion() >= '5.4' ) {
-		$options = get_option( WP_ROCKET_SLUG );
+		$options = get_option( WP_ROCKET_SETTINGS_SLUG );
 		if ( 0 < $options['do_cloudflare'] && '' !== $options['cloudflare_domain'] ) {
 			require( WP_ROCKET_ADMIN_PATH . 'compat/cf-upgrader-5.4.php' );
 		}
@@ -249,7 +249,7 @@ function rocket_new_upgrade( $wp_rocket_version, $actual_version ) {
 	}
 
 	if ( version_compare( $actual_version, '2.10', '<' ) ) {
-		$options = get_option( WP_ROCKET_SLUG );
+		$options = get_option( WP_ROCKET_SETTINGS_SLUG );
 
 		if ( 0 < $options['minify_css'] ) {
 			update_rocket_option( 'minify_css_legacy', 1 );

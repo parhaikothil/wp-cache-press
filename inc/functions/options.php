@@ -22,7 +22,7 @@ function get_rocket_option( $option, $default = false ) {
 	if ( null !== $value ) {
 		return $value;
 	}
-	$options = get_option( WP_ROCKET_SLUG );
+	$options = get_option( WP_ROCKET_SETTINGS_SLUG );
 
 	$value = isset( $options[ $option ] ) && '' !== $options[ $option ] ? $options[ $option ] : $default;
 
@@ -46,10 +46,10 @@ function get_rocket_option( $option, $default = false ) {
  * @return void
  */
 function update_rocket_option( $key, $value ) {
-	$options         = get_option( WP_ROCKET_SLUG );
+	$options         = get_option( WP_ROCKET_SETTINGS_SLUG );
 	$options[ $key ] = $value;
 
-	update_option( WP_ROCKET_SLUG, $options );
+	update_option( WP_ROCKET_SETTINGS_SLUG, $options );
 }
 
 /**
@@ -610,7 +610,7 @@ function rocket_check_key( $check = false ) {
 						$messages[ $reason ] = sprintf( esc_html__( 'API request is incorrect (error code: %s).', 'rocket' ), $reason );
 					}
 
-					add_settings_error( 'wp_rocket', 'wp-rocket-api-error', $messages[ $reason ], 'error' );
+					add_settings_error( WP_ROCKET_PLUGIN_SLUG, 'wp-rocket-api-error', $messages[ $reason ], 'error' );
 				}
 			}
 		}
@@ -625,12 +625,12 @@ function rocket_check_key( $check = false ) {
 			}
 
 			if ( 'silent' != $check ) {
-				add_settings_error( 'wp_rocket', 'wp-rocket-api-error', esc_html__( 'Connection to API server failed.', 'rocket' ), 'error' );
+				add_settings_error( WP_ROCKET_PLUGIN_SLUG, 'wp-rocket-api-error', esc_html__( 'Connection to API server failed.', 'rocket' ), 'error' );
 			}
 		}
 
 		if( ! empty( $rocket_options ) ) {
-			set_transient( WP_ROCKET_SLUG, $rocket_options );
+			set_transient( WP_ROCKET_SETTINGS_SLUG, $rocket_options );
 			$return = (array) $rocket_options;
 		}
 	}

@@ -71,7 +71,7 @@ function rocket_htaccess_rules_test( $rules_name ) {
 		'redirection' => 0,
 		'timeout'     => 5,
 		'sslverify'   => apply_filters( 'https_local_ssl_verify', true ),
-		'user-agent'  => 'wprocketbot',
+		'user-agent'  => WP_ROCKET_PLUGIN_SLUG . 'bot',
 		'cookies'     => $_COOKIE,
 	) );
 

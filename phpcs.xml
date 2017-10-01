@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
-<ruleset name="WPRocket">
-	<description>Caching plugin for WordPress by WP Media.</description>
+<ruleset name="WPCachePress">
+	<description>The best caching plugin for WordPress that's simple and fast.</description>
 
 	<arg name="extensions" value="php"/>
 	<arg value="s"/>

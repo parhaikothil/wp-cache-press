@@ -9,7 +9,7 @@ if ( ! is_wp_error( $cf_instance ) ) {
 
 		if ( isset( $zone->result[0]->id ) ) {
 			$options['cloudflare_zone_id'] = $zone->result[0]->id;
-			update_option( WP_ROCKET_SLUG, $options );
+			update_option( WP_ROCKET_SETTINGS_SLUG, $options );
 		}
 	} catch ( Exception $e ) {
 		return false;

@@ -49,7 +49,7 @@ input[type=number].small-text {
 .rkt-module-drag {
 	cursor:  move;
 }
-.toplevel_page_wprocket input.has-parent {
+.toplevel_page_wpcachepress input.has-parent {
 	margin-left:  20px;
 }
 [data-loading="true"] input  {

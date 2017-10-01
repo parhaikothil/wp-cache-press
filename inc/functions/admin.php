@@ -9,7 +9,7 @@ defined( 'ABSPATH' ) || die( 'Cheatin&#8217; uh?' );
 function rocket_need_api_key() {
 	?>
 	<div class="notice notice-warning">
-		<p><strong><?php echo WP_ROCKET_PLUGIN_NAME; ?></strong> : <?php
+		<p><strong><?php echo WP_ROCKET_PLUGIN_NAME; ?></strong>: <?php
 
 		printf(
 			wp_kses(
@@ -36,8 +36,8 @@ function rocket_user_agent( $user_agent ) {
 	global $wpdb;
 
 	$consumer_key = '';
-	if ( isset( $_POST[ WP_ROCKET_SLUG ]['consumer_key'] ) ) {
-		$consumer_key = sanitize_key( $_POST[ WP_ROCKET_SLUG ]['consumer_key'] );
+	if ( isset( $_POST[ WP_ROCKET_SETTINGS_SLUG ]['consumer_key'] ) ) {
+		$consumer_key = sanitize_key( $_POST[ WP_ROCKET_SETTINGS_SLUG ]['consumer_key'] );
 	} elseif ( '' !== (string) get_rocket_option( 'consumer_key' ) ) {
 		$consumer_key = (string) get_rocket_option( 'consumer_key' );
 	}
@@ -162,7 +162,7 @@ function rocket_hidden_fields( $fields ) {
 	}
 
 	foreach ( $fields as $field ) {
-		echo '<input type="hidden" name="wp_rocket_settings[' . $field . ']" value="' . esc_attr( get_rocket_option( $field ) ) . '" />';
+		echo '<input type="hidden" name="' . WP_ROCKET_SETTINGS_SLUG . '[' . $field . ']" value="' . esc_attr( get_rocket_option( $field ) ) . '" />';
 	}
 }
 

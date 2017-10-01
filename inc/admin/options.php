@@ -13,7 +13,7 @@ function rocket_correct_capability_for_options_page( $capability ) {
 	/** This filter is documented in inc/admin-bar.php */
 	return apply_filters( 'rocket_capacity', 'manage_options' );
 }
-add_filter( 'option_page_capability_wp_rocket', 'rocket_correct_capability_for_options_page' );
+add_filter( 'option_page_capability_' . WP_ROCKET_PLUGIN_SLUG, 'rocket_correct_capability_for_options_page' );
 
 /**
  * Add top-level menu
@@ -93,7 +93,7 @@ function rocket_field( $args ) {
 				?>
 
 					<legend class="screen-reader-text"><span><?php echo $args['label_screen']; ?></span></legend>
-					<label><input<?php echo $autocomplete; ?> type="<?php echo $args['type']; ?>"<?php echo $number_options; ?> id="<?php echo $args['label_for']; ?>" name="wp_rocket_settings[<?php echo $args['name']; ?>]" value="<?php echo $value; ?>" <?php echo $placeholder; ?><?php echo $readonly; ?>/> <?php echo $label; ?></label>
+					<label><input<?php echo $autocomplete; ?> type="<?php echo $args['type']; ?>"<?php echo $number_options; ?> id="<?php echo $args['label_for']; ?>" name="<?php echo WP_ROCKET_SETTINGS_SLUG; ?>[<?php echo $args['name']; ?>]" value="<?php echo $value; ?>" <?php echo $placeholder; ?><?php echo $readonly; ?>/> <?php echo $label; ?></label>
 
 				<?php
 			break;
@@ -109,7 +109,7 @@ function rocket_field( $args ) {
 			    	?>
 			    		<legend class="screen-reader-text"><span><?php echo $args['label_screen']; ?></span></legend>
 			    		<label>
-			    		    <input type="text" id="<?php echo $args['label_for']; ?>" name="wp_rocket_settings[<?php echo $args['name']; ?>]" value="<?php echo $value; ?>" <?php echo $placeholder; ?><?php echo $readonly; ?>/> <?php echo $label; ?>
+			    		    <input type="text" id="<?php echo $args['label_for']; ?>" name="<?php echo WP_ROCKET_SETTINGS_SLUG; ?>[<?php echo $args['name']; ?>]" value="<?php echo $value; ?>" <?php echo $placeholder; ?><?php echo $readonly; ?>/> <?php echo $label; ?>
 			    		    <?php if ( $cf_valid_credentials ) { ?>
 				    		    <span id="rocket-check-cloudflare-api-container" class="rocket-cloudflare-api-valid">
 								    <span class="dashicons dashicons-yes" aria-hidden="true"></span> <?php _e( 'Your Cloudflare credentials are valid.', 'rocket' ); ?>
@@ -140,7 +140,7 @@ function rocket_field( $args ) {
 				?>
 
 					<legend class="screen-reader-text"><span><?php echo $args['label_screen']; ?></span></legend>
-					<label><textarea id="<?php echo $args['label_for']; ?>" name="wp_rocket_settings[<?php echo $args['name']; ?>]" cols="<?php echo $cols; ?>" rows="<?php echo $rows; ?>"<?php echo $readonly; echo $placeholder; ?>><?php echo esc_html( $value ); ?></textarea>
+					<label><textarea id="<?php echo $args['label_for']; ?>" name="<?php echo WP_ROCKET_SETTINGS_SLUG; ?>[<?php echo $args['name']; ?>]" cols="<?php echo $cols; ?>" rows="<?php echo $rows; ?>"<?php echo $readonly; echo $placeholder; ?>><?php echo esc_html( $value ); ?></textarea>
 					</label>
 
 				<?php
@@ -150,7 +150,7 @@ function rocket_field( $args ) {
 				if ( isset( $args['label_screen'] ) ) { ?>
 					<legend class="screen-reader-text"><span><?php echo $args['label_screen']; ?></span></legend>
 				<?php } ?>
-					<label><input type="checkbox" id="<?php echo $args['name']; ?>" class="<?php echo $class; ?>" name="wp_rocket_settings[<?php echo $args['name']; ?>]" value="1"<?php echo $readonly; ?> <?php checked( get_rocket_option( $args['name'], $default ), 1 ); ?> <?php echo $parent; ?>/> <?php echo $args['label']; ?>
+					<label><input type="checkbox" id="<?php echo $args['name']; ?>" class="<?php echo $class; ?>" name="<?php echo WP_ROCKET_SETTINGS_SLUG; ?>[<?php echo $args['name']; ?>]" value="1"<?php echo $readonly; ?> <?php checked( get_rocket_option( $args['name'], $default ), 1 ); ?> <?php echo $parent; ?>/> <?php echo $args['label']; ?>
 					</label>
 
 			<?php
@@ -159,7 +159,7 @@ function rocket_field( $args ) {
 			case 'select' : ?>
 
 					<legend class="screen-reader-text"><span><?php echo $args['label_screen']; ?></span></legend>
-					<label>	<select id="<?php echo $args['name']; ?>" class="<?php echo $class; ?>" name="wp_rocket_settings[<?php echo $args['name']; ?>]"<?php echo $readonly; ?> <?php echo $parent; ?>>
+					<label>	<select id="<?php echo $args['name']; ?>" class="<?php echo $class; ?>" name="<?php echo WP_ROCKET_SETTINGS_SLUG; ?>[<?php echo $args['name']; ?>]"<?php echo $readonly; ?> <?php echo $parent; ?>>
 							<?php foreach ( $args['options'] as $val => $title ) { ?>
 								<option value="<?php echo $val; ?>" <?php selected( get_rocket_option( $args['name'] ), $val ); ?>><?php echo $title; ?></option>
 							<?php } ?>
@@ -172,7 +172,7 @@ function rocket_field( $args ) {
 
 			case 'submit_optimize' : ?>
 
-			<input type="submit" name="wp_rocket_settings[submit_optimize]" id="rocket_submit_optimize" class="button button-primary" value="<?php _e( 'Save and optimize', 'rocket' ); ?>"> <a href="<?php echo wp_nonce_url( admin_url( 'admin-post.php?action=rocket_optimize_database' ), 'rocket_optimize_database' ); ?>" class="button button-secondary"><?php _e( 'Optimize', 'rocket' ); ?></a>
+			<input type="submit" name="<?php echo WP_ROCKET_SETTINGS_SLUG; ?>[submit_optimize]" id="rocket_submit_optimize" class="button button-primary" value="<?php _e( 'Save and optimize', 'rocket' ); ?>"> <a href="<?php echo wp_nonce_url( admin_url( 'admin-post.php?action=rocket_optimize_database' ), 'rocket_optimize_database' ); ?>" class="button button-secondary"><?php _e( 'Optimize', 'rocket' ); ?></a>
 			<?php break;
 
 			case 'repeater' :
@@ -274,7 +274,7 @@ function rocket_defered_module() {
 				<p class="rkt-module-drag">
 					<span class="dashicons dashicons-sort rkt-module-move hide-if-no-js"></span>
 
-					<input style="width: 32em" type="text" placeholder="http://" class="deferred_js regular-text" name="wp_rocket_settings[deferred_js_files][<?php echo $k; ?>]" value="<?php echo esc_url( $_url ); ?>" />
+					<input style="width: 32em" type="text" placeholder="http://" class="deferred_js regular-text" name="<?php echo WP_ROCKET_SETTINGS_SLUG; ?>[deferred_js_files][<?php echo $k; ?>]" value="<?php echo esc_url( $_url ); ?>" />
 
 					<span class="dashicons dashicons-no rkt-module-remove hide-if-no-js"></span>
 				</p>
@@ -289,7 +289,7 @@ function rocket_defered_module() {
 			<p class="rkt-module-drag">
 				<span class="dashicons dashicons-sort rkt-module-move hide-if-no-js"></span>
 
-				<input style="width: 32em" type="text" placeholder="http://" class="deferred_js regular-text" name="wp_rocket_settings[deferred_js_files][0]" value="" />
+				<input style="width: 32em" type="text" placeholder="http://" class="deferred_js regular-text" name="<?php echo WP_ROCKET_SETTINGS_SLUG; ?>[deferred_js_files][0]" value="" />
 			</p>
 			<!-- .rkt-module-drag -->
 
@@ -305,7 +305,7 @@ function rocket_defered_module() {
 		<p class="rkt-module-drag">
 			<span class="dashicons dashicons-sort rkt-module-move hide-if-no-js"></span>
 
-			<input style="width: 32em" type="text" placeholder="http://" class="deferred_js regular-text" name="wp_rocket_settings[deferred_js_files][]" value="" />
+			<input style="width: 32em" type="text" placeholder="http://" class="deferred_js regular-text" name="<?php echo WP_ROCKET_SETTINGS_SLUG; ?>[deferred_js_files][]" value="" />
 
 			<span class="dashicons dashicons-no rkt-module-remove hide-if-no-js"></span>
 		</p>
@@ -340,11 +340,11 @@ function rocket_cnames_module() {
 
 				<p>
 
-					<input style="width: 32em" type="text" placeholder="http://" class="regular-text" name="wp_rocket_settings[cdn_cnames][<?php echo $k; ?>]" value="<?php echo esc_attr( $_url ); ?>" />
+					<input style="width: 32em" type="text" placeholder="http://" class="regular-text" name="<?php echo WP_ROCKET_SETTINGS_SLUG; ?>[cdn_cnames][<?php echo $k; ?>]" value="<?php echo esc_attr( $_url ); ?>" />
 
 					<label>
 						<?php _e( 'reserved for', 'rocket' ); ?>
-						<select name="wp_rocket_settings[cdn_zone][<?php echo $k; ?>]">
+						<select name="<?php echo WP_ROCKET_SETTINGS_SLUG; ?>[cdn_zone][<?php echo $k; ?>]">
 							<option value="all" <?php selected( $cnames_zone[ $k ], 'all' ); ?>><?php _e( 'All files', 'rocket' ); ?></option>
 							<?php
 							/**
@@ -376,11 +376,11 @@ function rocket_cnames_module() {
 
 				<p>
 
-					<input style="width: 32em" type="text" placeholder="http://" class="regular-text" name="wp_rocket_settings[cdn_cnames][]" value="" />
+					<input style="width: 32em" type="text" placeholder="http://" class="regular-text" name="<?php echo WP_ROCKET_SETTINGS_SLUG; ?>[cdn_cnames][]" value="" />
 
 					<label>
 						<?php _e( 'reserved for', 'rocket' ); ?>
-						<select name="wp_rocket_settings[cdn_zone][]">
+						<select name="<?php echo WP_ROCKET_SETTINGS_SLUG; ?>[cdn_zone][]">
 							<option value="all"><?php _e( 'All files', 'rocket' ); ?></option>
 							<?php
 							// this filter is defined in inc/admin/options.php.
@@ -404,11 +404,11 @@ function rocket_cnames_module() {
 
 			<p>
 
-				<input style="width: 32em" type="text" placeholder="http://" class="regular-text" name="wp_rocket_settings[cdn_cnames][]" value="" />
+				<input style="width: 32em" type="text" placeholder="http://" class="regular-text" name="<?php echo WP_ROCKET_SETTINGS_SLUG; ?>[cdn_cnames][]" value="" />
 
 				<label>
 					<?php _e( 'reserved for', 'rocket' ); ?>
-					<select name="wp_rocket_settings[cdn_zone][]">
+					<select name="<?php echo WP_ROCKET_SETTINGS_SLUG; ?>[cdn_zone][]">
 						<option value="all"><?php _e( 'All files', 'rocket' ); ?></option>
 						<?php
 						// this filter is defined in inc/admin/options.php.
@@ -524,11 +524,11 @@ function rocket_display_options() {
 
 	<<?php echo $heading_tag; ?>><?php echo WP_ROCKET_PLUGIN_NAME; ?> <small><sup><?php echo WP_ROCKET_VERSION; ?></sup></small></<?php echo $heading_tag; ?>>
 
-	<?php settings_errors( 'wp_rocket' ); ?>
+	<?php settings_errors( WP_ROCKET_PLUGIN_SLUG ); ?>
 
 	<form action="options.php" id="rocket_options" method="post" enctype="multipart/form-data">
 		<?php
-		settings_fields( 'wp_rocket' );
+		settings_fields( WP_ROCKET_PLUGIN_SLUG );
 
 		rocket_hidden_fields(
 			array(
@@ -603,7 +603,7 @@ function rocket_display_options() {
  * @since 1.0
  */
 function rocket_register_setting() {
-	register_setting( 'wp_rocket', WP_ROCKET_SLUG, 'rocket_settings_callback' );
+	register_setting( WP_ROCKET_PLUGIN_SLUG, WP_ROCKET_SETTINGS_SLUG, 'rocket_settings_callback' );
 }
 add_action( 'admin_init', 'rocket_register_setting' );
 
@@ -921,7 +921,7 @@ function rocket_settings_callback( $inputs ) {
 	}
 
 	if ( rocket_valid_key() && ! isset( $inputs['ignore'] ) ) {
-		add_settings_error( 'wp_rocket', 'wp-rocket-settings-save-success', esc_html__( 'Settings saved.', 'rocket' ), 'updated' );
+		add_settings_error( WP_ROCKET_PLUGIN_SLUG, 'wp-rocket-settings-save-success', esc_html__( 'Settings saved.', 'rocket' ), 'updated' );
 	}
 
 	unset( $inputs['ignore'] );
@@ -980,7 +980,7 @@ function rocket_after_save_options( $oldvalue, $value ) {
 			array(
 				'timeout'    => 0.01,
 				'blocking'   => false,
-				'user-agent' => 'wprocketbot',
+				'user-agent' => WP_ROCKET_PLUGIN_SLUG . 'bot',
 				'sslverify'  => apply_filters( 'https_local_ssl_verify', true ),
 			)
 		);
@@ -1001,7 +1001,7 @@ function rocket_after_save_options( $oldvalue, $value ) {
 	}
 
 	// Performs the database optimization when settings are saved with the "save and optimize" submit button".
-	if ( ! empty( $_POST ) && isset( $_POST['wp_rocket_settings']['submit_optimize'] ) ) {
+	if ( ! empty( $_POST ) && isset( $_POST[WP_ROCKET_SETTINGS_SLUG]['submit_optimize'] ) ) {
 		do_rocket_database_optimization();
 	}
 
@@ -1082,7 +1082,7 @@ function rocket_after_save_options( $oldvalue, $value ) {
 		set_rocket_wp_cache_define( true );
 	}
 }
-add_action( 'update_option_' . WP_ROCKET_SLUG, 'rocket_after_save_options', 10, 2 );
+add_action( 'update_option_' . WP_ROCKET_SETTINGS_SLUG, 'rocket_after_save_options', 10, 2 );
 
 /**
  * Auto-activate the SSL option is the website URL is updated with https protocol
@@ -1160,14 +1160,14 @@ function rocket_pre_main_option( $newvalue, $oldvalue ) {
 		rocket_generate_advanced_cache_file();
 	}
 
-	if ( $keys = get_transient( WP_ROCKET_SLUG ) ) {
-		delete_transient( WP_ROCKET_SLUG );
+	if ( $keys = get_transient( WP_ROCKET_SETTINGS_SLUG ) ) {
+		delete_transient( WP_ROCKET_SETTINGS_SLUG );
 		$newvalue = array_merge( $newvalue, $keys );
 	}
 
 	return $newvalue;
 }
-add_filter( 'pre_update_option_' . WP_ROCKET_SLUG, 'rocket_pre_main_option', 10, 2 );
+add_filter( 'pre_update_option_' . WP_ROCKET_SETTINGS_SLUG, 'rocket_pre_main_option', 10, 2 );
 
 /**
  * Outputs the form used by the importers to accept the data to be imported
@@ -1261,12 +1261,12 @@ function rocket_database_count_cleanup_items( $type ) {
  */
 function rocket_handle_settings_import( $file_import, $filename_prefix, $inputs ) {
 	if ( ! isset( $file_import ) ) {
-		add_settings_error( 'wp_rocket', 'wp-rocket-settings-import-error', esc_html__( 'Settings import failed: no file uploaded.', 'rocket' ), 'error' );
+		add_settings_error( WP_ROCKET_PLUGIN_SLUG, 'wp-rocket-settings-import-error', esc_html__( 'Settings import failed: no file uploaded.', 'rocket' ), 'error' );
 		return false;
 	}
 
 	if ( ! preg_match( '/' . $filename_prefix . '-settings-20\d{2}-\d{2}-\d{2}-[a-f0-9]{13}\.(?:txt|json)/', $file_import['name'] ) ) {
-		add_settings_error( 'wp_rocket', 'wp-rocket-settings-import-error', esc_html__( 'Settings import failed: incorrect filename.', 'rocket' ), 'error' );
+		add_settings_error( WP_ROCKET_PLUGIN_SLUG, 'wp-rocket-settings-import-error', esc_html__( 'Settings import failed: incorrect filename.', 'rocket' ), 'error' );
 		return false;
 	}
 
@@ -1275,7 +1275,7 @@ function rocket_handle_settings_import( $file_import, $filename_prefix, $inputs 
 	$file_data = wp_check_filetype_and_ext(  $file_import['tmp_name'], $file_import['name'] );
 
 	if ( 'text/plain' !== $file_data['type'] && 'application/json' !== $file_data['type'] ) {
-		add_settings_error( 'wp_rocket', 'wp-rocket-settings-import-error', esc_html__( 'Settings import failed: incorrect filetype.', 'rocket' ), 'error' );
+		add_settings_error( WP_ROCKET_PLUGIN_SLUG, 'wp-rocket-settings-import-error', esc_html__( 'Settings import failed: incorrect filetype.', 'rocket' ), 'error' );
 		return false;
 	}
 
@@ -1306,7 +1306,7 @@ function rocket_handle_settings_import( $file_import, $filename_prefix, $inputs 
 		$settings['minify_js_key']    = $inputs['minify_js_key'];
 		$settings['version']          = $inputs['version'];
 
-		add_settings_error( 'wp_rocket', 'wp-rocket-settings-import-success', esc_html__( 'Settings imported and saved.', 'rocket' ), 'updated' );
+		add_settings_error( WP_ROCKET_PLUGIN_SLUG, 'wp-rocket-settings-import-success', esc_html__( 'Settings imported and saved.', 'rocket' ), 'updated' );
 
 		return $settings;
 	}

@@ -19,10 +19,10 @@
 defined( 'ABSPATH' ) || die( 'Cheatin&#8217; uh?' );
 
 // Rocket defines.
-define( 'WP_ROCKET_PLUGIN_NAME',        'WP Cache Press' );
-define( 'WP_ROCKET_PLUGIN_SLUG',        sanitize_key( 'WP Rocket' ) ); // TODO: WP_ROCKET_PLUGIN_NAME ?
+define( 'WP_ROCKET_PLUGIN_NAME'         , 'WP Cache Press' );
+define( 'WP_ROCKET_PLUGIN_SLUG'         , sanitize_key( WP_ROCKET_PLUGIN_NAME ) );
+define( 'WP_ROCKET_SETTINGS_SLUG'       , WP_ROCKET_PLUGIN_SLUG . '_settings' );
 define( 'WP_ROCKET_VERSION'             , '2.10.9' );
-define( 'WP_ROCKET_SLUG'                , 'wp_rocket_settings' );
 define( 'WP_ROCKET_URL_MAIN'            , 'https://wpcache.press/' );
 define( 'WP_ROCKET_URL_API'             , WP_ROCKET_URL_MAIN . 'api/v1/' );
 define( 'WP_ROCKET_URL_API_KEY'         , WP_ROCKET_URL_API . 'get-api-key-info/' );

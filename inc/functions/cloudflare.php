@@ -456,8 +456,8 @@ function rocket_get_cloudflare_ips() {
  * @author Remy Perona
  */
 function do_rocket_deactivate_cloudflare_devmode() {
-	$options                       = get_option( WP_ROCKET_SLUG );
+	$options                       = get_option( WP_ROCKET_SETTINGS_SLUG );
 	$options['cloudflare_devmode'] = 'off';
-	update_option( WP_ROCKET_SLUG, $options );
+	update_option( WP_ROCKET_SETTINGS_SLUG, $options );
 }
 add_action( 'rocket_cron_deactivate_cloudflare_devmode', 'do_rocket_deactivate_cloudflare_devmode' );
