@@ -24,6 +24,17 @@
 .dashicons-wpcachepress:before {
 	content: '\e900';
 }
+#wp-admin-bar-wpcachepress {
+  display: block !important;
+}
+#wp-admin-bar-wpcachepress .ab-icon {
+  top: 2px;
+}
+@media screen and (max-width: 782px) {
+  #wp-admin-bar-wpcachepress .ab-icon {
+    top: 3px;
+  }
+}
 .updated .rkt-cross, .error .rkt-cross{float:right; margin-top:8px}
 .rocket-plugins-error{overflow:hidden; padding-left:20px; list-style-type:disc}
 .rocket-plugins-error li{width:280px; line-height:25px}
@@ -41,4 +52,4 @@ p.description.file-error{color:#F00}
 @media (max-width:650px){
 .rkt-cross{top:8px; margin-top:0}
 }
-#wp-admin-bar-wp-rocket #wp-admin-bar-purge-all .ab-item>img, #wp-admin-bar-wp-rocket #wp-admin-bar-preload-cache .ab-item>img{max-width: 16px; max-height: 11px}
+#wp-admin-bar-wpcachepress #wp-admin-bar-purge-all .ab-item>img, #wp-admin-bar-wpcachepress #wp-admin-bar-preload-cache .ab-item>img{max-width: 16px; max-height: 11px}
