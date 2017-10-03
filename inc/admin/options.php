@@ -522,7 +522,7 @@ function rocket_display_options() {
 
 	<div class="wrap">
 
-	<<?php echo $heading_tag; ?>><?php echo WP_ROCKET_PLUGIN_NAME; ?> <small><sup><?php echo WP_ROCKET_VERSION; ?></sup></small></<?php echo $heading_tag; ?>>
+	<<?php echo $heading_tag; ?>><?php echo WP_ROCKET_PLUGIN_NAME; ?> <small><sup><?php echo WP_ROCKET_VERSION; ?><?php echo ( get_rocket_option( 'premium' ) ? ' - ' . esc_html__( 'Premium', 'rocket' ) : '' ) ?></sup></small></<?php echo $heading_tag; ?>>
 
 	<?php settings_errors( WP_ROCKET_PLUGIN_SLUG ); ?>
 
@@ -534,6 +534,7 @@ function rocket_display_options() {
 			array(
 				'consumer_key',
 				'secret_key',
+				'premium',
 				'license',
 				'secret_cache_key',
 				'minify_css_key',
@@ -617,6 +618,19 @@ add_action( 'admin_init', 'rocket_register_setting' );
 function rocket_settings_callback( $inputs ) {
 	if ( isset( $_GET['action'] ) && 'purge_cache' === $_GET['action'] ) {
 		return $inputs;
+	}
+
+	/*
+	 * Fix dropped options after first install if API key was incorrect
+	 */
+	if ( ! get_rocket_option( 'license' ) ) {
+		$options = get_option( WP_ROCKET_SETTINGS_SLUG );
+
+		foreach ( $options as $option_key => $option_val ) {
+			if ( ! isset( $inputs[$option_key] ) ) {
+				$inputs[$option_key] = $option_val;
+			}
+		}
 	}
 
 	/*
@@ -1301,6 +1315,7 @@ function rocket_handle_settings_import( $file_import, $filename_prefix, $inputs 
 	if ( is_array( $settings ) ) {
 		$settings['consumer_key']     = $inputs['consumer_key'];
 		$settings['secret_key']       = $inputs['secret_key'];
+		$settings['premium']          = $inputs['premium'];
 		$settings['secret_cache_key'] = $inputs['secret_cache_key'];
 		$settings['minify_css_key']	  = $inputs['minify_css_key'];
 		$settings['minify_js_key']    = $inputs['minify_js_key'];

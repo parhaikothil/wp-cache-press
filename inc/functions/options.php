@@ -587,6 +587,7 @@ function rocket_check_key( $check = false ) {
 			if ( $json->success ) {
 				$rocket_options['consumer_key'] = sanitize_key( $json->data->consumer_key );
 				$rocket_options['secret_key'] = sanitize_key( $json->data->secret_key );
+				$rocket_options['premium'] = filter_var( $json->data->premium, FILTER_VALIDATE_BOOLEAN );
 
 				if ( ! get_rocket_option( 'license' ) ) {
 					$rocket_options['license'] = '1';
@@ -596,6 +597,7 @@ function rocket_check_key( $check = false ) {
 			} else {
 				$rocket_options['consumer_key'] = '';
 				$rocket_options['secret_key'] = '';
+				$rocket_options['premium'] = false;
 				$rocket_options['license'] = false;
 
 				if ( 'silent' != $check ) {
@@ -621,6 +623,7 @@ function rocket_check_key( $check = false ) {
 			else {
 				$rocket_options['consumer_key'] = '';
 				$rocket_options['secret_key'] = '';
+				$rocket_options['premium'] = false;
 				$rocket_options['license'] = false;
 			}
 
