@@ -210,9 +210,9 @@ function get_rocket_htaccess_mod_rewrite() {
 		$rules .= '</IfModule>' . PHP_EOL . PHP_EOL;
 
 		$gzip_rules .= 'RewriteCond %{HTTP:Accept-Encoding} gzip' . PHP_EOL;
-		$gzip_rules .= 'RewriteRule .* - [E=WPR_ENC:_gzip]' . PHP_EOL;
+		$gzip_rules .= 'RewriteRule .* - [E=WP_CACHE_PRESS_ENC:_gzip]' . PHP_EOL;
 
-		$enc = '%{ENV:WPR_ENC}';
+		$enc = '%{ENV:WP_CACHE_PRESS_ENC}';
 	}
 
 	$rules .= '<IfModule mod_rewrite.c>' . PHP_EOL;
@@ -238,12 +238,12 @@ function get_rocket_htaccess_mod_rewrite() {
 	}
 
 	if ( $is_1and1_or_force ) {
-		$rules .= 'RewriteCond "' . str_replace( '/kunden/', '/', WP_ROCKET_CACHE_PATH ) . $http_host . '%{REQUEST_URI}/index%{ENV:WPR_SSL}.html' . $enc . '" -f' . PHP_EOL;
+		$rules .= 'RewriteCond "' . str_replace( '/kunden/', '/', WP_ROCKET_CACHE_PATH ) . $http_host . '%{REQUEST_URI}/index%{ENV:WP_CACHE_PRESS_SSL}.html' . $enc . '" -f' . PHP_EOL;
 	} else {
-		$rules .= 'RewriteCond "%{DOCUMENT_ROOT}/' . ltrim( $cache_root, '/' ) . $http_host . '%{REQUEST_URI}/index%{ENV:WPR_SSL}.html' . $enc . '" -f' . PHP_EOL;
+		$rules .= 'RewriteCond "%{DOCUMENT_ROOT}/' . ltrim( $cache_root, '/' ) . $http_host . '%{REQUEST_URI}/index%{ENV:WP_CACHE_PRESS_SSL}.html' . $enc . '" -f' . PHP_EOL;
 	}
 
-	$rules .= 'RewriteRule .* "' . $cache_root . $http_host . '%{REQUEST_URI}/index%{ENV:WPR_SSL}.html' . $enc . '" [L]' . PHP_EOL;
+	$rules .= 'RewriteRule .* "' . $cache_root . $http_host . '%{REQUEST_URI}/index%{ENV:WP_CACHE_PRESS_SSL}.html' . $enc . '" [L]' . PHP_EOL;
 	$rules .= '</IfModule>' . PHP_EOL;
 
 	/**
@@ -300,7 +300,7 @@ function get_rocket_htaccess_ssl_rewritecond() {
 	$rules  = 'RewriteCond %{HTTPS} on [OR]' . PHP_EOL;
 	$rules .= 'RewriteCond %{SERVER_PORT} ^443$ [OR]' . PHP_EOL;
 	$rules .= 'RewriteCond %{HTTP:X-Forwarded-Proto} https' . PHP_EOL;
-	$rules .= 'RewriteRule .* - [E=WPR_SSL:-https]' . PHP_EOL;
+	$rules .= 'RewriteRule .* - [E=WP_CACHE_PRESS_SSL:-https]' . PHP_EOL;
 
 	/**
 	 * Filter rules for SSL requests
