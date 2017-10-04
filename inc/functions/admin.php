@@ -25,14 +25,13 @@ function rocket_need_api_key() {
 }
 
 /**
- * Add Rocket informations into USER_AGENT
+ * Add Rocket information into API request body
  *
  * @since 1.1.0
  *
- * @param string $user_agent User Agent value.
- * @return string WP Rocket user agent
+ * @return string WP Rocket request body
  */
-function rocket_user_agent( $user_agent ) {
+function rocket_api_request_body() {
 	global $wpdb;
 
 	$consumer_key = '';
@@ -42,20 +41,33 @@ function rocket_user_agent( $user_agent ) {
 		$consumer_key = (string) get_rocket_option( 'consumer_key' );
 	}
 
-	$ua_info = implode( '|', array(
-		WP_ROCKET_PLUGIN_NAME,
-		WP_ROCKET_VERSION,
-		$consumer_key,
-		esc_url( home_url() ),
-		$GLOBALS['wp_version'],
-		phpversion(),
-		$wpdb->db_version(),
-		get_locale(),
-	) );
+	$server_software = 'unknown';
+	$server_types = array( 'apache', 'nginx', 'IIS', 'iis7' );
 
-	$new_ua = sprintf( '%s;%s;', $user_agent, $ua_info );
+	foreach ( $server_types as $server_type ) {
+		if ( $GLOBALS['is_' . $server_type] ) {
+			$server_software = strtolower( $server_type );
+		}
+	}
 
-	return $new_ua;
+	$request_body = array(
+		'plugin_name' => WP_ROCKET_PLUGIN_NAME,
+		'plugin_version' => WP_ROCKET_VERSION,
+		'api_key' => $consumer_key,
+		'site_url' => esc_url( home_url() ),
+		'site_name' => get_bloginfo( 'name' ),
+		'site_language' => get_locale(),
+		'site_timezone' => get_option( 'timezone_string' ),
+		'multisite' => is_multisite(),
+		'wp_version' => get_bloginfo( 'version' ),
+		'php_version' => phpversion(),
+		'db_version' => $wpdb->db_version(),
+		'server_software' => $server_software,
+	);
+
+	$request_body = json_encode( $request_body );
+
+	return $request_body;
 }
 
 /**
@@ -133,7 +145,7 @@ function create_rocket_uniqid() {
 }
 
 /**
- * Force our user agent header when we hit our urls
+ * Force our API request body when we hit our urls
  *
  * @since 2.4
  *
@@ -141,13 +153,13 @@ function create_rocket_uniqid() {
  * @param string $url Requested URL.
  * @return array An array of requested arguments
  */
-function rocket_add_own_ua( $r, $url ) {
+function rocket_add_api_request_body( $r, $url ) {
 	if ( strpos( $url, rocket_parse_url( WP_ROCKET_URL_MAIN, PHP_URL_HOST ) ) !== false ) {
-		$r['user-agent'] = rocket_user_agent( $r['user-agent'] );
+		$r['body'] = rocket_api_request_body();
 	}
 	return $r;
 }
-add_filter( 'http_request_args', 'rocket_add_own_ua', 10, 3 );
+add_filter( 'http_request_args', 'rocket_add_api_request_body', 10, 2 );
 
 /**
  * Function used to print all hidden fields from rocket to avoid the loss of these.

@@ -578,7 +578,7 @@ function rocket_check_key( $check = false ) {
 	$return = rocket_valid_key();
 
 	if ( ! $return || 'force' == $check || ! get_transient( 'rocket_check_licence_1' ) ) {
-		$response = wp_remote_get( esc_url_raw( WP_ROCKET_URL_API_KEY ), array( 'timeout' => 15 ) );
+		$response = wp_remote_post( esc_url_raw( WP_ROCKET_URL_API_KEY ), array( 'timeout' => 15 ) );
 
 		$json = ! is_wp_error( $response ) ? json_decode( $response['body'] ) : false;
 		$rocket_options = array();
